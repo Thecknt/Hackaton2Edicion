@@ -14,10 +14,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class bus extends Transportation{
+public class Client extends Person{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idBus;
-    private Double price;
+    private Integer idClient;
+
 }

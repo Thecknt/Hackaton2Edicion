@@ -16,13 +16,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Transportation {
+public class Transportation extends TouristicService{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idTransportation;
     private Double priceTransportation;
-    private LocalDate admissionDate;
-    private LocalDate dischargeDate;
-    private Double destionationKms;
+    private String typeOfTransport;
 }

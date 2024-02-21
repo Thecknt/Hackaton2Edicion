@@ -11,13 +11,13 @@ import lombok.ToString;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
-public class Train extends Transportation{
-
+public class Employ extends Person{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String idTrain;
-    private Double priceTrain;
+    private Integer idEmploy;
+    private String position;
+    private Double salary;
 }

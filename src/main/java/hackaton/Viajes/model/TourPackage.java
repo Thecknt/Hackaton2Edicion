@@ -9,15 +9,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
-public class Airplane extends Transportation{
-
+public class TourPackage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idAirplane;
-    private Double priceAirplane;
+    private Integer idTourPackage;
+    private List<TouristicService> services;
+    private Double tourPackageCost;
 }

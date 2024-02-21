@@ -9,23 +9,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.time.LocalDate;
-
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Hotel {
+public class Hotel extends TouristicService {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
      private Integer idHotel;
      private String name;
-     private String location;
-     private String address;
      private String stars;
-     private String priceHotel;
-     private LocalDate admissionDate;
-     private LocalDate dischargeDate;
+     private Integer numberOfNights;
 }

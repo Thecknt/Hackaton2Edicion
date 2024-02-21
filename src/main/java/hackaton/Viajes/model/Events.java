@@ -9,16 +9,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Events {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idEvent;
+public class Events extends TouristicService{
     private String typeEvent;
-    private Double priceEvent;
 }
