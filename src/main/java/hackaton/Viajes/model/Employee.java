@@ -14,7 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Employ extends Person{
+public class Employee extends Person{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idEmploy;
