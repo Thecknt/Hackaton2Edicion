@@ -17,10 +17,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 public class Transportation extends TouristicService{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idTransportation;
     private Double priceTransportation;
     private String typeOfTransport;
 }

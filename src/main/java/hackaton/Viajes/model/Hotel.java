@@ -15,11 +15,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class Hotel extends TouristicService {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-     private Integer idHotel;
-     private String name;
      private String stars;
      private Integer numberOfNights;
 }

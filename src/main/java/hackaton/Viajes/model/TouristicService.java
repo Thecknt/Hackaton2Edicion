@@ -8,6 +8,7 @@ import lombok.ToString;
 import java.util.Date;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -44,7 +45,7 @@ public class TouristicService {
     @JoinColumn(name = "idEvent")
     Event event;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "idEmployee")
     Employee employee;
 
