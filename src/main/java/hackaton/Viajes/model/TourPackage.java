@@ -18,7 +18,7 @@ public class TourPackage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idTourPackage;
 
-    @OneToMany(mappedBy = "touristicPackage")
+    @OneToMany(mappedBy = "tourPackage")
     private List<TouristicService> services;
 
     private Double tourPackageCost;
