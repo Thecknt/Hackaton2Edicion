@@ -17,7 +17,7 @@ import lombok.ToString;
 public class Employee extends Person{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idEmploy;
+    private Integer idEmployee;
     private String position;
     private Double salary;
 }

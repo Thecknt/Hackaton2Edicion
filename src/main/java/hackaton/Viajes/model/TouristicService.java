@@ -7,11 +7,16 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import java.util.Date;
 
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 public class TouristicService {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idTouristicService;
     private Integer idCodeService;
     private String name;
     private String briefDescription;
@@ -19,6 +24,31 @@ public class TouristicService {
     private Date serviceDate;
     private Double priceCost;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "idTourPackage")
     TourPackage tourPackage;
+
+    @ManyToOne
+    @JoinColumn(name = "idHotel")
+    Hotel hotel;
+
+    @ManyToOne
+    @JoinColumn(name = "idCarRental")
+    CarRental carRental;
+
+    @ManyToOne
+    @JoinColumn(name = "idTransportation")
+    Transportation transportation;
+
+    @ManyToOne
+    @JoinColumn(name = "idEvent")
+    Event event;
+
+    @ManyToMany
+    @JoinColumn(name = "idEmployee")
+    Employee employee;
+
+    @ManyToOne
+    @JoinColumn(name = "idClient")
+    Client client;
 }

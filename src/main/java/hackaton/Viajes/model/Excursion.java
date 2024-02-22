@@ -9,6 +9,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Excursions extends TouristicService{
+public class Excursion extends TouristicService{
     private String typeCircuit;
 }
