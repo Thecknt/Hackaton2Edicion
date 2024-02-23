@@ -8,7 +8,7 @@ import lombok.ToString;
 import java.util.Date;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,14 +16,14 @@ import java.util.Date;
 public class TouristicService {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idTouristicService;
-    private Integer idCodeService;
-    private String name;
-    private String briefDescription;
-    private String serviceDestination;
-    private Date serviceDate;
-    private Double priceCost;
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    protected Integer idTouristicService;
+    protected Integer idCodeService;
+    protected String name;
+    protected String briefDescription;
+    protected String serviceDestination;
+    protected Date serviceDate;
+    protected Double priceCost;
 
     @ManyToOne
     @JoinColumn(name = "idTourPackage")
