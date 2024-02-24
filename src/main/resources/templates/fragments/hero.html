@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd"
+>
+  <!-- para desarollo despues eliminar  -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
+    rel="stylesheet"
+  />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+
+  <!-- para desarollo despues eliminar  -->
+
+
+  <<!-- Hero section con imagen de fondo -->
+<section th:fragment="hero" class="h-screen bg-cover bg-center flex items-center justify-center" style="background-image: url('https://images.unsplash.com/photo-1583132831594-6d50ece1f730?q=80&w=1759&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+    <!-- Contenedor del texto y el input con margen negativo -->
+    <div class="text-center mt-[-160]">
+        <h1 class="text-4xl font-bold text-yellow-500 mb-6">Rutas Soñadas</h1>
+        <h3 class="text-4xl font-bold text-yellow-500 mb-6">Donde los sueños se convierten en destinos</h3>
+        <!-- Input para buscar destino -->
+        <div class="max-w-lg mx-auto">
+            <input type="text" class="w-full border-2 border-gray-300 p-3 rounded-lg focus:outline-none focus:ring focus:border-blue-500"
+                   placeholder="Buscar destino">
+        </div>
+    </div>
+</section>
+
+<!-- Tu contenido adicional aquí -->
+
+</body>
+</html>
