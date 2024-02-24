@@ -24,5 +24,4 @@ public class Person {
     protected LocalDate dateOfBird;
     protected String nationality;
     protected String celuphone;
-    protected String email;
 }
