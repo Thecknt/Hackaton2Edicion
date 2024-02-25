@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-
 <html
   lang="en"
   xmlns:th="http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd"
 >
-  <head th:insert="~{fragments/head}"></head>
   <!-- para desarollo despues eliminar  -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link
@@ -16,12 +14,14 @@
 
   <!-- para desarollo despues eliminar  -->
 
-  <body>
-     <nav th:insert="~{fragments/nav_bar}"></nav> 
-     <section th:insert="~{fragments/hero}"></section> 
-     <section th:insert="~{fragments/paquetes}"></section> 
-     <section th:insert="~{fragments/armapaquete}"></section> 
+
+   <section
+   class="bg-lime-200 min-h-screen bg-cover bg-center flex flex-col items-center "
+   th:fragment="armapaquete" 
+    
+   >
+   <p class="text-sky-600 font-extrabold whitespace-nowrap mt-12 text-6xl ">Arma tu paquete</p>
 
 
-  </body>
+   </section>
 </html>

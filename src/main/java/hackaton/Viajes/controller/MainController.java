@@ -12,11 +12,12 @@ import org.springframework.http.ResponseEntity;
 import java.util.Set;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Collectors;
 
-@RestController
+@Controller
 public class MainController {
 
     @Autowired
