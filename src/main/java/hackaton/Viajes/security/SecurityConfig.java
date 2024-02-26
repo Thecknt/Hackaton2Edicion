@@ -4,6 +4,7 @@ import hackaton.Viajes.security.filters.JwtAuthenticationFilter;
 import hackaton.Viajes.security.filters.JwtAuthorizationFilter;
 import hackaton.Viajes.security.jwt.JwtUtils;
 import hackaton.Viajes.service.UserDetailsServiceImpl;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,6 +54,12 @@ public class SecurityConfig {
                 })
                 .addFilter(jwtAuthenticationFilter)
                 .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class)
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            response.setStatus(HttpServletResponse.SC_OK);
+                        })
+                )
                 .build();
     }
 
