@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class ClienteService implements IClientService{
+public class ClientService implements IClientService{
 
     @Autowired
     ClientRepository clientRepository;
@@ -23,7 +23,7 @@ public class ClienteService implements IClientService{
     }
 
     @Override
-    public void saven(Client client) {
+    public void save(Client client) {
        clientRepository.save(client);
     }
 

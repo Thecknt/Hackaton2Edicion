@@ -10,7 +10,7 @@ public interface IClientService {
 
     public Client findById(Integer idClient);
 
-    public void saven(Client client);
+    public void save(Client client);
 
     public void delete(Client client);
 }

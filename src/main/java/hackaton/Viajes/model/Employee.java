@@ -9,15 +9,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
+import java.util.Set;
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Employee extends Person{
+public class Employee{
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer idEmployee;
     private String position;
     private Double salary;
+    private String name;
+    private String lastname;
+    private String address;
+    private String dni;
+    private LocalDate dateOfBird;
+    private String nationality;
+    private String celuphone;
+    private String email;
 }

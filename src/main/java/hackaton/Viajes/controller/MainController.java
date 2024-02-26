@@ -1,10 +1,9 @@
 package hackaton.Viajes.controller;
 
 import hackaton.Viajes.controller.request.CreateUserDb;
-import hackaton.Viajes.model.ERole;
-import hackaton.Viajes.model.RoleEntity;
-import hackaton.Viajes.model.UserEntity;
+import hackaton.Viajes.model.*;
 import hackaton.Viajes.repository.UserRepository;
+//import hackaton.Viajes.service.HotelService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +24,9 @@ public class MainController {
 
     @Autowired
     private UserRepository userRepository;
+
+//    @Autowired
+//    HotelService hotelService;
 
     @GetMapping("/hello")
     @ResponseBody
@@ -60,16 +62,13 @@ public class MainController {
      return ResponseEntity.ok(userEntity);
     }
 
-    @DeleteMapping("/deleteUser")
-    public String deleteUser(@RequestParam String id){
-     userRepository.deleteById(Integer.parseInt(id));
-     return "Se ha borrado el usuario con exito! ID:".concat(id);
-    }
+//    @PostMapping("/createHotel")
+//    public String createHotel(@ModelAttribute("formHotel") Hotel hotel){
+//        hotelService.save(hotel);
+//        System.out.println("el hotel guardado es: " + hotel);
+//        return "redirect:/";
+//    }
 
-    @GetMapping("/")
-    public String indexPage() {
-        return "index"; // Retorna el nombre de la plantilla HTML (sin la extensión) que quieres mostrar
-    }
 
     @PostMapping("/submit") // Ejemplo de manejo de una solicitud POST
     public String handleSubmit() {
