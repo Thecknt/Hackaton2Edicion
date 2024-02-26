@@ -45,6 +45,18 @@ public class MainController {
     @PostMapping("/createUser")
     public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserDb createUserDb){
 
+        if(userRepository.existsByUsername(createUserDb.getUsername())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Error: the name of the User its already in use!");
+        }
+
+        if(userRepository.existsByEmail(createUserDb.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Error: the Email its already in use!");
+        }
+
         Set<RoleEntity> roles = createUserDb.getRoles().stream()
                 .map(role -> RoleEntity.builder()
                         .name(ERole.valueOf(role))
