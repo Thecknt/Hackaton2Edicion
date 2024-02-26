@@ -27,12 +27,14 @@ public class MainController {
     private UserRepository userRepository;
 
     @GetMapping("/hello")
+    @ResponseBody
     public String hello(){
         //metodo de testeo sin seguridad
         return "Hello world not secured";
     }
 
     @GetMapping("/helloSecured")
+    @ResponseBody
     public String helloSecured(){
         //metodo para testear la seguridad
         return "hello world from secured point";

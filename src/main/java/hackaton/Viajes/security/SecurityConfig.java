@@ -1,6 +1,7 @@
 package hackaton.Viajes.security;
 
 import hackaton.Viajes.security.filters.JwtAuthenticationFilter;
+import hackaton.Viajes.security.filters.JwtAuthorizationFilter;
 import hackaton.Viajes.security.jwt.JwtUtils;
 import hackaton.Viajes.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
@@ -25,6 +27,9 @@ public class SecurityConfig {
     
     @Autowired
     UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    JwtAuthorizationFilter authorizationFilter;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager) throws Exception {
@@ -36,13 +41,15 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(config -> config.disable())
                 .authorizeHttpRequests(auth ->{
-                    auth.requestMatchers("/", "/hello").permitAll();
+                    auth.requestMatchers("/", "/hello","/login").permitAll();
+                    auth.requestMatchers("/createClient").hasAnyRole("ADMIN","EMPLOYEE");
                     auth.anyRequest().authenticated();
                 })
                 .sessionManagement(session ->{
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })
                 .addFilter(jwtAuthenticationFilter)
+                .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
