@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd"
+>
+  <head th:insert="~{fragments/head}"></head>
+  <!-- para desarollo despues eliminar  -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
+    rel="stylesheet"
+  />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+
+  <!-- para desarollo despues eliminar  -->
+
+  <body class="bg-lime-100" >
+     <nav th:insert="~{fragments/nav_bar}"></nav> 
+   
+
+     <!-- form login -->
+
+
+     <!-- component -->
+<!-- This is an example component -->
+<div class="max-w-2xl mx-auto mt-48 ">
+    
+    <form action="/registro" method="post" th:object="${registroForm}" onsubmit="return validarContraseñas()">
+        <div class="relative z-0 mb-6 w-full group">
+            <input type="text" th:field="*{username}" id="username" class="block py-2.5 px-0 w-full text-sm text-black font-bold bg-transparent border-0 border-b-2 border-bg-lime-400 appearance-none focus:outline-none focus:ring-0 focus:border-lime-400 peer" placeholder=" " required />
+            <label for="username" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-lime-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Username</label>
+        </div>
+        <div class="relative z-0 mb-6 w-full group">
+            <input type="email" th:field="*{floatingEmail}" id="floating_email" class="block py-2.5 px-0 w-full text-sm text-black font-bold bg-transparent border-0 border-b-2 border-bg-lime-400 appearance-none focus:outline-none focus:ring-0 focus:border-lime-400 peer" placeholder=" " required />
+            <label for="floating_email" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-lime-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email address</label>
+        </div>
+        <div class="relative z-0 mb-6 w-full group">
+            <input type="password" th:field="*{floatingPassword}" id="floating_password" class="block py-2.5 px-0 w-full text-sm text-black font-bold bg-transparent border-0 border-b-2 border-bg-lime-400 appearance-none focus:outline-none focus:ring-0 focus:border-lime-400 peer" placeholder=" " required />
+            <label for="floating_password" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-lime-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
+        </div>
+        <div class="relative z-0 mb-6 w-full group">
+            <input type="password" th:field="*{repeatPassword}" id="floating_repeat_password" class="block py-2.5 px-0 w-full text-sm text-black font-bold bg-transparent border-0 border-b-2 border-bg-lime-400 appearance-none focus:outline-none focus:ring-0 focus:border-lime-400 peer" placeholder=" " required />
+            <label for="floating_repeat_password" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-lime-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Confirm password</label>
+        </div>
+        <div class="grid xl:grid-cols-2 xl:gap-6">
+            <div id="errorContraseñas" class="text-red-500" style="display: none;">Las contraseñas no coinciden</div>
+        </div>
+        <button type="submit" class="text-white bg-lime-500 hover:bg-lime-400 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center ">Registrarme</button>
+    </form>
+    
+    <script>
+        function validarContraseñas() {
+            var password = document.getElementById("floating_password").value;
+            var repeatPassword = document.getElementById("floating_repeat_password").value;
+            if (password !== repeatPassword) {
+                document.getElementById("errorContraseñas").style.display = "block";
+                return false;
+            } else {
+                document.getElementById("errorContraseñas").style.display = "none";
+                return true;
+            }
+        }
+    </script>
+    
+    
+    
+    <div class="flex justify-center">
+        <img src="https://img.molachinoviajes.com/gallery/var/albums/Rutas%20%281%29.png?m=1708897580" class="w-48 p-0" alt="Logo" />
+    </div>
+    
+    
+	
+</div>
+
+
+  </body>
+</html>
