@@ -43,7 +43,8 @@ public class SecurityConfig {
                 .csrf(config -> config.disable())
                 .authorizeHttpRequests(auth ->{
                     auth.requestMatchers("/", "/hello","/login","/createUser").permitAll();
-                    auth.requestMatchers("/createClient", "/deleteUser","/createUser","/createHotel")
+                    auth.requestMatchers("/createHotel","/deleteUser").hasRole("ADMIN");
+                    auth.requestMatchers("/createClient","/createUser")
                             .hasAnyRole("ADMIN","EMPLOYEE");
                     auth.requestMatchers("/myPurchases").hasAnyRole("ADMIN","CLIENT");
                     auth.requestMatchers("/shoppingCart").hasAnyRole("ADMIN","CLIENT");

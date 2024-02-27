@@ -3,9 +3,11 @@ package hackaton.Viajes.service;
 import hackaton.Viajes.model.Client;
 import hackaton.Viajes.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ClientService implements IClientService{
 
     @Autowired

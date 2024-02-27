@@ -1,9 +1,11 @@
 package hackaton.Viajes.service;
 
 import hackaton.Viajes.model.Client;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface IClientService {
 
     public List<Client> clients();

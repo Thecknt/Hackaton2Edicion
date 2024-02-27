@@ -3,7 +3,9 @@ package hackaton.Viajes.controller;
 import hackaton.Viajes.controller.request.CreateUserDb;
 import hackaton.Viajes.model.*;
 import hackaton.Viajes.repository.UserRepository;
-//import hackaton.Viajes.service.HotelService;
+import hackaton.Viajes.service.IClientService;
+import hackaton.Viajes.service.IEmployeeService;
+import hackaton.Viajes.service.IHotelService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import java.util.Set;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Collectors;
@@ -25,22 +28,14 @@ public class MainController {
     @Autowired
     private UserRepository userRepository;
 
-//    @Autowired
-//    HotelService hotelService;
+    @Autowired
+    private IHotelService hotelService;
 
-    @GetMapping("/hello")
-    @ResponseBody
-    public String hello(){
-        //metodo de testeo sin seguridad
-        return "Hello world not secured";
-    }
+    @Autowired
+    private IEmployeeService IEmployeeService;
 
-    @GetMapping("/helloSecured")
-    @ResponseBody
-    public String helloSecured(){
-        //metodo para testear la seguridad
-        return "hello world from secured point";
-    }
+    @Autowired
+    private IClientService iClientService;
 
     @PostMapping("/createUser")
     public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserDb createUserDb){
@@ -74,13 +69,25 @@ public class MainController {
      return ResponseEntity.ok(userEntity);
     }
 
-//    @PostMapping("/createHotel")
-//    public String createHotel(@ModelAttribute("formHotel") Hotel hotel){
-//        hotelService.save(hotel);
-//        System.out.println("el hotel guardado es: " + hotel);
-//        return "redirect:/";
-//    }
+    @PostMapping("/createHotel")
+    public String createHotel(@RequestBody Hotel hotel, Model model) {
+        hotelService.save(hotel);
+        model.addAttribute("hotel", hotel);
+        return "hotelView";
+    }
 
+    @PostMapping("/createEmployee")
+    public String createEmployee(@RequestBody Employee employee, Model model){
+        IEmployeeService.save(employee);
+        model.addAttribute("employee", employee);
+        return "redirect:/";
+    }
+    @PostMapping("/createClient")
+    private String createClient(@RequestBody Client client, Model model){
+        iClientService.save(client);
+        model.addAttribute("client", client);
+        return "redirect:/";
+    }
 
     @PostMapping("/submit") // Ejemplo de manejo de una solicitud POST
     public String handleSubmit() {
