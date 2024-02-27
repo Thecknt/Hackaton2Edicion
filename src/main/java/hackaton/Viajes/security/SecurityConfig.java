@@ -42,7 +42,7 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(config -> config.disable())
                 .authorizeHttpRequests(auth ->{
-                    auth.requestMatchers("/", "/hello","/login","/createUser").permitAll();
+                    auth.requestMatchers("/", "/hello", "/login", "/createUser").permitAll();
                     auth.requestMatchers("/createHotel","/deleteUser").hasRole("ADMIN");
                     auth.requestMatchers("/createClient","/createUser")
                             .hasAnyRole("ADMIN","EMPLOYEE");

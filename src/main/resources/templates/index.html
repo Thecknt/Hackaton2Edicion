@@ -17,11 +17,16 @@
   <!-- para desarollo despues eliminar  -->
 
   <body>
-     <nav th:insert="~{fragments/nav_bar}"></nav> 
-     <section th:insert="~{fragments/hero}"></section> 
-     <section th:insert="~{fragments/paquetes}"></section> 
-     <section th:insert="~{fragments/armapaquete}"></section> 
+    <!-- navbar -->
+    <nav th:insert="~{fragments/nav_bar}"></nav>
 
+    <!-- fragmentos -->
+    <section th:insert="~{fragments/hero}"></section>
+    <section th:insert="~{fragments/about}"></section>
 
+    <section th:insert="~{fragments/paquetes}"></section>
+    <section th:insert="~{fragments/armapaquete}"></section>
+    <!-- footer  -->
+    <footer th:insert="~{fragments/footer}"></footer>
   </body>
 </html>

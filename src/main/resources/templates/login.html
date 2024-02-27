@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <!-- para desarollo despues eliminar  -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+
+    <!-- para desarollo despues eliminar  -->
+  </head>
+
+  <body class="bg-lime-100">
+    <nav th:insert="~{fragments/nav_bar}"></nav>
+
+    <div
+      class="h-screen flex items-center justify-center bg-lime-100 px-40 mt-14"
+    >
+      <!-- Div izquierdo -->
+      <div class="relative py-3 ml-10 sm:max-w-xl sm:mx-auto">
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"
+        ></div>
+        <div
+          class="relative px-4 py-10 bg-lime-100 shadow-lg sm:rounded-3xl sm:p-20"
+        >
+          <div class="max-w-md mx-auto bg-lime-100">
+            <div>
+              <h1 class="text-2xl font-sans font-semibold text-blue-600">
+                Inicia Sesion y Elije tu destino
+              </h1>
+            </div>
+            <div class="divide-y divide-gray-200">
+              <div
+                class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7"
+              >
+                <div class="relative">
+                  <input
+                    autocomplete="off"
+                    id="email"
+                    name="email"
+                    type="text"
+                    class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
+                    placeholder="Email address"
+                  />
+                  <label
+                    for="email"
+                    class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                    >Email Address</label
+                  >
+                </div>
+                <div class="relative">
+                  <input
+                    autocomplete="off"
+                    id="password"
+                    name="password"
+                    type="password"
+                    class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
+                    placeholder="Password"
+                  />
+                  <label
+                    for="password"
+                    class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                    >Password</label
+                  >
+                </div>
+                <div class="relative">
+                  <button class="bg-blue-500 text-white rounded-md px-2 py-1">
+                    Inicia Sesión
+                  </button>
+                  <button class="bg-lime-700 text-white rounded-md px-2 py-1">
+                    Registrate
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex-1 h-full flex items-center justify-center bg-lime-100"
+      ></div>
+      <!-- Div derecho -->
+      <div class="flex-1 h-full flex items-center justify-center bg-lime-100">
+        <div class="text-center text-white bg-lime-100">
+          <img
+            src="https://img.molachinoviajes.com/gallery/var/albums/Rutas%20%281%29.png?m=1708897580"
+            class="w-72"
+            alt="Logo"
+          />
+        </div>
+      </div>
+    </div>
+    <footer th:insert="~{fragments/footer}"></footer>
+  </body>
+</html>

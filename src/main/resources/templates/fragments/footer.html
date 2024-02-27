@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd"
+>
+  <!-- para desarollo despues eliminar  -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
+    rel="stylesheet"
+  />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iZN3a3v3jDQ4J5foXYzOWmP8Yy/HAUz7z4vN0/p3ZSv9ws0kz4f4C"
+    crossorigin="anonymous"
+  />
+  <!-- Bootstrap JS bundle (popper.js included) -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-U6dVuHsVvgDfNlpJTn5693twgaB0gH5zyME0kZoDkeFpv0BrU/Z8KRkbxPbxl5Z5"
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- para desarollo despues eliminar  -->
+
+  <footer
+    th:fragment="footer"
+    class="bg-lime-500 "
+  >
+    <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+      <div class="sm:flex sm:items-center sm:justify-between">
+        <a
+          href="https://flowbite.com/"
+          class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
+        >
+          <img
+          src="https://img.molachinoviajes.com/gallery/var/albums/Rutas%20%281%29.png?m=1708897580"
+            class="h-32"
+            alt="Flowbite Logo"
+          />
+          <span
+            class="self-center whitespace-nowrap text-sky-600 text-3xl font-extrabold"
+            >Rutas Soñadas</span
+          >
+        </a>
+        <ul
+          class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400"
+        >
+          <li>
+            <a href="#" class="hover:underline me-4 md:me-6 text-white font-extrabold text-2xl ">Inicio</a>
+          </li>
+          <li>
+            <a href="#" class="hover:underline me-4 md:me-6 text-white font-extrabold text-2xl ">Arma tu paquete</a>
+          </li>
+          <li>
+            <a href="#" class="hover:underline me-4 md:me-6 text-white font-extrabold text-2xl ">Registro</a>
+          </li>
+          <li>
+            <a href="#" class="hover:underline text-white font-extrabold text-2xl ">Contacto</a>
+          </li>
+        </ul>
+      </div>
+      <hr class="my-6 border border-white sm:mx-auto dark:border-gray-700 lg:my-8" />
+
+      <span
+        class="block t sm:text-center text-white font-extrabold text-2xl"
+        >© 2023
+        <a href="https://flowbite.com/" class="hover:underline text-white font-extrabold text-2xl">Rutas Soñadas
+    </div>
+  </footer>
+</html>

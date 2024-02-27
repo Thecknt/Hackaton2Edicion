@@ -36,7 +36,15 @@ public class MainController {
 
     @Autowired
     private IClientService iClientService;
+    @GetMapping("/create_User")
+    public String createUser() {
+        return "register";
+    }
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
     @PostMapping("/createUser")
     public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserDb createUserDb){
 
@@ -82,11 +90,11 @@ public class MainController {
         model.addAttribute("employee", employee);
         return "redirect:/";
     }
-    @PostMapping("/createClient")
+    @PostMapping("/create_client")
     private String createClient(@RequestBody Client client, Model model){
         iClientService.save(client);
         model.addAttribute("client", client);
-        return "redirect:/";
+        return "redirect:/create_client";
     }
 
     @PostMapping("/submit") // Ejemplo de manejo de una solicitud POST
