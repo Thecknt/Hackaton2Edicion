@@ -49,8 +49,9 @@ public class JwtUtils {
     }
 
     //Esta funcion es para obtener un solo claim
-    public<T> T getClaim(String token, Function<Claims, T>claimsTFunction){
+    public<T> T getClaim(String token, Function<Claims, T> claimsTFunction){
         Claims claims= extractAllClaims(token);
+        System.out.println("Claims " +claims);
         return claimsTFunction.apply(claims);
     }
 

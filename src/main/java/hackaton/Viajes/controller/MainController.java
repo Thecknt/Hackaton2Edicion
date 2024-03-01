@@ -1,6 +1,6 @@
 package hackaton.Viajes.controller;
 
-import hackaton.Viajes.controller.request.CreateUserDb;
+import hackaton.Viajes.controller.request.CreateUserDTO;
 import hackaton.Viajes.model.*;
 import hackaton.Viajes.repository.UserRepository;
 import hackaton.Viajes.service.IClientService;
@@ -9,17 +9,14 @@ import hackaton.Viajes.service.IHotelService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-
 import java.util.Set;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 public class MainController {
 
     @Autowired
@@ -36,45 +33,52 @@ public class MainController {
 
     @Autowired
     private IClientService iClientService;
+
     @GetMapping("/create_User")
     public String createUser() {
         return "register";
     }
 
+    @GetMapping("/hello")
+    public String hello(){
+        return "Hello World Not Secured";
+    }
+
+    @GetMapping("/helloSecured")
+    public String helloSecured(){
+        return "Hello World Secured";
+    }
+
+    @PostMapping("/login")
+    public String login(){
+        return "login";
+    }
+
     @GetMapping("/login")
-    public String login() {
+    public String CheckLogin(){
         return "login";
     }
     @PostMapping("/createUser")
-    public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserDb createUserDb){
+    public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserDTO createUserDTO){
 
-        if(userRepository.existsByUsername(createUserDb.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body("Error: the name of the User its already in use!");
-        }
-
-        if(userRepository.existsByEmail(createUserDb.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body("Error: the Email its already in use!");
-        }
-
-        Set<RoleEntity> roles = createUserDb.getRoles().stream()
+        System.out.println("ingreso al metodo");
+        Set<RoleEntity> roles = createUserDTO.getRoles().stream()
                 .map(role -> RoleEntity.builder()
                         .name(ERole.valueOf(role))
                         .build())
                 .collect(Collectors.toSet());
 
         UserEntity userEntity = UserEntity.builder()
-                .username(createUserDb.getUsername())
-                .password(passwordEncoder.encode(createUserDb.getPassword()))
-                .email(createUserDb.getEmail())
+                .username(createUserDTO.getUsername())
+                .password(passwordEncoder.encode(createUserDTO.getPassword()))
+                .email(createUserDTO.getEmail())
                 .roles(roles)
                 .build();
 
+        System.out.println("Usuario creado: "+userEntity.toString());
         userRepository.save(userEntity);
-     return ResponseEntity.ok(userEntity);
+
+        return ResponseEntity.ok(userEntity);
     }
 
     @PostMapping("/createHotel")

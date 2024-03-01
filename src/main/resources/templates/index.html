@@ -1,32 +1,309 @@
 <!DOCTYPE html>
-
-<html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd"
->
-  <head th:insert="~{fragments/head}"></head>
-  <!-- para desarollo despues eliminar  -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Viajes</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link
-    href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
-    rel="stylesheet"
-  />
-
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iZN3a3v3jDQ4J5foXYzOWmP8Yy/HAUz7z4vN0/p3ZSv9ws0kz4f4C" crossorigin="anonymous">
+  <!-- Bootstrap JS bundle (popper.js included) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-U6dVuHsVvgDfNlpJTn5693twgaB0gH5zyME0kZoDkeFpv0BrU/Z8KRkbxPbxl5Z5" crossorigin="anonymous"></script>
 
-  <!-- para desarollo despues eliminar  -->
+</head>
+<body>
+<!-- para desarollo despues eliminar  -->
 
-  <body>
-    <!-- navbar -->
-    <nav th:insert="~{fragments/nav_bar}"></nav>
+<nav
+        class="fixed top-0 left-0 right-0 bg-lime-500 border-gray-200 z-50"
+>
+  <div
+          class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto"
+  >
+    <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+      <img
+              src="https://img.molachinoviajes.com/gallery/var/albums/Rutas%20%281%29.png?m=1708897580"
+              class="w-28 p-0"
+              alt=" Logo"
+      />
+      <span
+              class="self-center text-sky-600 text-3xl font-extrabold whitespace-nowrap"
+      >Rutas Soñadas</span
+      >
+    </a>
+    <button
+            data-collapse-toggle="navbar-default"
+            type="button"
+            class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+            aria-controls="navbar-default"
+            aria-expanded="false"
+    >
+      <span class="sr-only">Open main menu</span>
+      <svg
+              class="w-5 h-5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 17 14"
+      >
+        <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M1 1h15M1 7h15M1 13h15"
+        />
+      </svg>
+    </button>
+    <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+      <ul
+              class="font-medium flex flex-col p-4 md:p-0 mt-4 bg-lime-500 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0"
+      >
+        <li>
+          <a
+                  href="#"
+                  class="block py-2 px-3 text-sky-600 text-2xl font-bold hover:text-lime-700 md:hover:text-lime-700 md:border-0 md:hover:text-white md:p-0"
+          >Inicio</a
+          >
+        </li>
+        <li>
+          <a
+                  href="#"
+                  class="block py-2 px-3 text-sky-600 text-2xl font-bold hover:text-lime-700 md:hover:text-lime-700 md:border-0 md:hover:text-white md:p-0"
+          >Sobre nosotros</a
+          >
+        </li>
+        <li>
+          <a
+                  href="#"
+                  class="block py-2 px-3 text-sky-600 text-2xl font-bold hover:text-lime-700 md:hover:text-lime-700 md:border-0 md:hover:text-white md:p-0"
+          >Paquetes armados</a
+          >
+        </li>
+        <li>
+          <a
+                  href="#"
+                  class="block py-2 px-3 text-sky-600 text-2xl font-bold hover:text-lime-700 md:hover:text-lime-700 md:border-0 md:hover:text-white md:p-0"
+          >Arma tu paquete</a
+          >
+        </li>
+        <li>
+          <a
+                  href="#"
+                  class="block py-2 px-3 text-sky-600 text-2xl font-bold hover:text-lime-700 md:hover:text-lime-700 md:border-0 md:hover:text-white md:p-0"
+          >Contacto</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-    <!-- fragmentos -->
-    <section th:insert="~{fragments/hero}"></section>
-    <section th:insert="~{fragments/about}"></section>
 
-    <section th:insert="~{fragments/paquetes}"></section>
-    <section th:insert="~{fragments/armapaquete}"></section>
-    <!-- footer  -->
-    <footer th:insert="~{fragments/footer}"></footer>
-  </body>
+<section class="min-h-screen bg-cover bg-center flex flex-col items-center justify-center" style="background-image: url('https://unsplash.com/photos/T7K4aEPoGGk/download');">
+  <!-- Contenido que deseas colocar delante de la imagen de fondo -->
+  <form class="w-1/4 mx-auto">
+    <label for="default-search" class="mb-2 text-sm font-medium text-sky-600 sr-only ">Search</label>
+    <div class="relative">
+      <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+        </svg>
+      </div>
+      <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Eleji Tu proximo destino..." required />
+      <button type="submit" class="text-sky-600 absolute end-2.5 bottom-2.5 bg-lime-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Buscar</button>
+    </div>
+  </form>
+
+  <!-- Botón dentro de la sección -->
+  <a href="#paquetes" class="flex items-center text-sky-600 bg-gradient-to-r mt-32 from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-8">
+    Explora Nuestros Paquetes
+    <svg class="w-4 h-4 ml-2 text-gray-900 dark:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" d="M10 12a1 1 0 0 1-.707-.293l-4-4a1 1 0 0 1 1.414-1.414L10 10.586l3.293-3.293a1 1 0 1 1 1.414 1.414l-4 4A1 1 0 0 1 10 12z" clip-rule="evenodd"></path>
+    </svg>
+  </a>
+</section>
+
+<section class="about bg-lime-100">
+  <!-- component -->
+
+  <p
+          class="text-sky-600 font-extrabold whitespace-nowrap ml-8 text-4xl mx-auto"
+  >
+    Sobre Rutas Soñadas
+  </p>
+  <div
+          id="carouselExampleSlidesOnly"
+          class="relative p-20"
+          data-te-carousel-init
+          data-te-ride="carousel"
+  >
+    <!--Carousel items-->
+    <div
+            class="relative w-full overflow-hidden after:clear-both after:block after:content-['']"
+    >
+      <!--First item-->
+      <div
+              class="relative float-left -mr-[100%] w-full transition-transform duration-[100ms] ease-in-out motion-reduce:transition-none"
+              data-te-carousel-item
+              data-te-carousel-active
+      >
+        <img
+                src="https://mdbcdn.b-cdn.net/img/new/slides/041.webp"
+                class="block w-full"
+                alt="Wild Landscape"
+        />
+      </div>
+      <!--Second item-->
+      <div
+              class="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
+              data-te-carousel-item
+      >
+        <img
+                src="https://mdbcdn.b-cdn.net/img/new/slides/042.webp"
+                class="block w-full"
+                alt="Camera"
+        />
+      </div>
+      <!--Third item-->
+      <div
+              class="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
+              data-te-carousel-item
+      >
+        <img
+                src="https://mdbcdn.b-cdn.net/img/new/slides/043.webp"
+                class="block w-full"
+                alt="Exotic Fruits"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section
+        class="paquetes bg-lime-300 min-h-screen bg-cover bg-center flex flex-col items-center justify-center"
+        id="paquetes"
+>
+  <p class="text-sky-600 font-extrabold whitespace-nowrap mt-52 mb-8 text-7xl ">Paquetes Armados</p>
+
+  <!-- seccion de cards inicio -->
+  <div class="flex flex-col md:flex-row mb-8">
+    <div class="max-w-sm bg-lime-200 border border-gray-200 rounded-lg shadow  mb-4 md:mr-4 md:mb-0 md:flex-1">
+      <a href="#">
+        <img class="rounded-t-lg" src="https://img.molachinoviajes.com/gallery/var/albums/erol-ahmed-d3pTF3r_hwY-unsplash.jpg?m=1708900727" alt="" />
+      </a>
+      <div class="p-5">
+        <a href="#">
+          <h5 class="mb-2 text-2xl font-bold tracking-tight text-sky-600 ">Noteworthy technology acquisitions 2021</h5>
+        </a>
+        <p class="mb-3 font-normal text-sky-500 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+        <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-lime-900 rounded-lg hover:bg-lime-700
+        focus:ring-4 focus:outline-none ">
+          Read more
+          <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Repite el mismo código para las otras dos tarjetas -->
+
+    <!-- Tarjeta 2 -->
+    <!-- seccion de cards inicio -->
+    <div class="max-w-sm bg-lime-200 border border-gray-200 rounded-lg shadow  mb-4 md:mr-4 md:mb-0 md:flex-1">
+      <a href="#">
+        <img class="rounded-t-lg" src="https://img.molachinoviajes.com/gallery/var/albums/erol-ahmed-d3pTF3r_hwY-unsplash.jpg?m=1708900727" alt="" />
+      </a>
+      <div class="p-5">
+        <a href="#">
+          <h5 class="mb-2 text-2xl font-bold tracking-tight text-sky-600 ">Noteworthy technology acquisitions 2021</h5>
+        </a>
+        <p class="mb-3 font-normal text-sky-500 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+        <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-lime-900 rounded-lg hover:bg-lime-700
+      focus:ring-4 focus:outline-none ">
+          Read more
+          <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Tarjeta 3 -->
+    <!-- seccion de cards inicio -->
+    <div class="max-w-sm bg-lime-200 border border-gray-200 rounded-lg shadow  mb-4 md:mr-4 md:mb-0 md:flex-1">
+      <a href="#">
+        <img class="rounded-t-lg" src="https://img.molachinoviajes.com/gallery/var/albums/erol-ahmed-d3pTF3r_hwY-unsplash.jpg?m=1708900727" alt="" />
+      </a>
+      <div class="p-5">
+        <a href="#">
+          <h5 class="mb-2 text-2xl font-bold tracking-tight text-sky-600 ">Noteworthy technology acquisitions 2021</h5>
+        </a>
+        <p class="mb-3 font-normal text-sky-500 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+        <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-lime-900 rounded-lg hover:bg-lime-700
+      focus:ring-4 focus:outline-none ">
+          Read more
+          <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+          </svg>
+        </a>
+      </div>
+    </div>>
+  </div>
+  </div>
+</section>
+
+<section
+        class="bg-lime-200 min-h-screen bg-cover bg-center flex flex-col items-center "
+        id="armapaquete">
+  <p class="text-sky-600 font-extrabold whitespace-nowrap mt-12 text-6xl ">Arma tu paquete</p>
+</section>
+
+<footer id="footer" class="bg-lime-500">
+  <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+    <div class="sm:flex sm:items-center sm:justify-between">
+      <a
+              href="https://flowbite.com/"
+              class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
+      >
+        <img
+                src="https://img.molachinoviajes.com/gallery/var/albums/Rutas%20%281%29.png?m=1708897580"
+                class="h-32"
+                alt="Flowbite Logo"
+        />
+        <span
+                class="self-center whitespace-nowrap text-sky-600 text-3xl font-extrabold"
+        >Rutas Soñadas</span
+        >
+      </a>
+      <ul
+              class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400"
+      >
+        <li>
+          <a href="#" class="hover:underline me-4 md:me-6 text-white font-extrabold text-2xl ">Inicio</a>
+        </li>
+        <li>
+          <a href="#" class="hover:underline me-4 md:me-6 text-white font-extrabold text-2xl ">Arma tu paquete</a>
+        </li>
+        <li>
+          <a href="#" class="hover:underline me-4 md:me-6 text-white font-extrabold text-2xl ">Registro</a>
+        </li>
+        <li>
+          <a href="#" class="hover:underline text-white font-extrabold text-2xl ">Contacto</a>
+        </li>
+      </ul>
+    </div>
+    <hr class="my-6 border border-white sm:mx-auto dark:border-gray-700 lg:my-8" />
+
+    <span
+            class="block t sm:text-center text-white font-extrabold text-2xl"
+    >© 2023
+        <a href="https://flowbite.com/" class="hover:underline text-white font-extrabold text-2xl">Rutas Soñadas
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-U6dVuHsVvgDfNlpJTn5693twgaB0gH5zyME0kZoDkeFpv0BrU/Z8KRkbxPbxl5Z5" crossorigin="anonymous"></script>
+</body>
 </html>
