@@ -14,5 +14,5 @@ public interface IClientService {
 
     public void save(Client client);
 
-    public void delete(Client client);
+    public void deleteById(Integer idClient);
 }

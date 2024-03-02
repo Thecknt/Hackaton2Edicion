@@ -11,6 +11,6 @@ public interface IEventService {
 
    public void save(Event event);
 
-   public void delete(Event event);
+   public void deleteById(Integer idEvent);
 
 }

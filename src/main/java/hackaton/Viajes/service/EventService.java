@@ -13,22 +13,18 @@ public class EventService implements IEventService{
 
     @Override
     public List<Event> events() {
-        return eventsRepository.findAll();
+        return this.eventsRepository.findAll();
     }
 
     @Override
     public Event findById(Integer idEvent) {
-        Event event = eventsRepository.findById(idEvent).orElse(null);
+        Event event = this.eventsRepository.findById(idEvent).orElse(null);
         return event;
     }
 
     @Override
     public void save(Event event) {
-      eventsRepository.save(event);
+      this.eventsRepository.save(event);
     }
 
-    @Override
-    public void delete(Event event) {
-      eventsRepository.delete(event);
-    }
 }
