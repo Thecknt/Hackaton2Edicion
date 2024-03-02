@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/")
+@CrossOrigin(origins = "http://localhost:5173")
+
 public class MainController {
 
     @Autowired
