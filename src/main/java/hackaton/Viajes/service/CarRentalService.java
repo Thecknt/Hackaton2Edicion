@@ -3,9 +3,11 @@ package hackaton.Viajes.service;
 import hackaton.Viajes.model.CarRental;
 import hackaton.Viajes.repository.CarRentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CarRentalService implements ICarRentalService{
 
     @Autowired
@@ -13,22 +15,24 @@ public class CarRentalService implements ICarRentalService{
 
     @Override
     public List<CarRental> listCar() {
-        return carRentalRepository.findAll();
+        return this.carRentalRepository.findAll();
     }
 
     @Override
     public CarRental findById(Integer idCarRental) {
-        CarRental carRental = carRentalRepository.findById(idCarRental).orElse(null);
+        CarRental carRental = this.carRentalRepository.findById(idCarRental).orElse(null);
         return carRental;
     }
 
     @Override
-    public void save(CarRental carRental) {
-       carRentalRepository.save(carRental);
+    public CarRental save(CarRental carRental) {
+       return this.carRentalRepository.save(carRental);
     }
 
     @Override
-    public void delete(CarRental carRental) {
-        carRentalRepository.delete(carRental);
+    public void deleteById(Integer idCarRental) {
+        this.carRentalRepository.deleteById(idCarRental);
     }
+
+
 }

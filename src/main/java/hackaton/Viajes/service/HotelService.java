@@ -14,22 +14,24 @@ public class HotelService implements IHotelService{
     HotelRepository hotelRepository;
     @Override
     public List<Hotel> hotels() {
-        return hotelRepository.findAll();
+        return this.hotelRepository.findAll();
     }
 
     @Override
     public Hotel findById(Integer idHotel) {
-        Hotel hotel = hotelRepository.findById(idHotel).orElse(null);
+        Hotel hotel = this.hotelRepository.findById(idHotel).orElse(null);
         return hotel;
     }
 
     @Override
-    public void save(Hotel hotel) {
-        hotelRepository.save(hotel);
+    public Hotel save(Hotel hotel) {
+      return this.hotelRepository.save(hotel);
     }
 
     @Override
-    public void delete(Hotel hotel) {
-        hotelRepository.delete(hotel);
+    public void deleteById(Integer idHotel) {
+        this.hotelRepository.deleteById(idHotel);
     }
+
+
 }

@@ -1,7 +1,6 @@
 package hackaton.Viajes.service;
 
 import hackaton.Viajes.model.TourPackage;
-
 import java.util.List;
 
 public interface ITourPackageService {
@@ -10,7 +9,7 @@ public interface ITourPackageService {
 
     public TourPackage findById(Integer idTourPackage);
 
-    public void save(TourPackage tourPackage);
+    public TourPackage save(TourPackage tourPackage);
 
-    public void delete(TourPackage tourPackage);
+    public void deleteById(Integer idTourPackage);
 }

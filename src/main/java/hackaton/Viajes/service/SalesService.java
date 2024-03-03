@@ -3,9 +3,11 @@ package hackaton.Viajes.service;
 import hackaton.Viajes.model.Sales;
 import hackaton.Viajes.repository.SalesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class SalesService implements ISalesService{
 
     @Autowired
@@ -13,22 +15,23 @@ public class SalesService implements ISalesService{
 
     @Override
     public List<Sales> sales() {
-        return salesRepository.findAll();
+        return this.salesRepository.findAll();
     }
 
     @Override
     public Sales findById(Integer numSales) {
-        Sales sales = salesRepository.findById(numSales).orElse(null);
+        Sales sales = this.salesRepository.findById(numSales).orElse(null);
         return sales;
     }
 
     @Override
-    public void save(Sales sales) {
-       salesRepository.save(sales);
+    public Sales save(Sales sales) {
+       return this.salesRepository.save(sales);
     }
 
     @Override
-    public void delete(Sales sales) {
-       salesRepository.delete(sales);
+    public void deleteById(Integer idSales) {
+        this.salesRepository.deleteById(idSales);
     }
+
 }

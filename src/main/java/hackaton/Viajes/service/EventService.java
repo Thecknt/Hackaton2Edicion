@@ -3,9 +3,11 @@ package hackaton.Viajes.service;
 import hackaton.Viajes.model.Event;
 import hackaton.Viajes.repository.EventsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class EventService implements IEventService{
 
     @Autowired
@@ -23,8 +25,13 @@ public class EventService implements IEventService{
     }
 
     @Override
-    public void save(Event event) {
-      this.eventsRepository.save(event);
+    public Event save(Event event) {
+      return this.eventsRepository.save(event);
+    }
+
+    @Override
+    public void deleteById(Integer idEvent) {
+        this.eventsRepository.deleteById(idEvent);
     }
 
 }

@@ -7,17 +7,24 @@ import hackaton.Viajes.service.IClientService;
 import hackaton.Viajes.service.IEmployeeService;
 import hackaton.Viajes.service.IHotelService;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 import java.util.Set;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.stream.Collectors;
 
+@CrossOrigin(value = "http://localhost:5173/")
 @RestController
 public class MainController {
+
+    private static final Logger logger =
+            LoggerFactory.getLogger(MainController.class);
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -34,11 +41,6 @@ public class MainController {
     @Autowired
     private IClientService iClientService;
 
-    @GetMapping("/create_User")
-    public String createUser() {
-        return "register";
-    }
-
     @GetMapping("/hello")
     public String hello(){
         return "Hello World Not Secured";
@@ -51,13 +53,11 @@ public class MainController {
 
     @PostMapping("/login")
     public String login(){
+
         return "login";
     }
 
-    @GetMapping("/login")
-    public String CheckLogin(){
-        return "login";
-    }
+   //Registro para un nuevo usuario desde el inicio, tambien puede ser usado desde el rol empleado
     @PostMapping("/createUser")
     public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserDTO createUserDTO){
 
@@ -81,18 +81,27 @@ public class MainController {
         return ResponseEntity.ok(userEntity);
     }
 
-    @PostMapping("/createHotel")
-    public String createHotel(@RequestBody Hotel hotel, Model model) {
-        hotelService.save(hotel);
-        model.addAttribute("hotel", hotel);
-        return "hotelView";
+    //Consultar Todos los hoteles en db
+    @GetMapping("/hotels")
+    public List<Hotel> getHotels(){
+        List<Hotel> hotels = this.hotelService.hotels();
+        logger.info("Estos son los Hoteles en la base de datos: ");
+        hotels.forEach((hotel -> logger.info(hotel.toString())));
+        return hotels;
     }
 
+    //Agregar un Hotel
+    @PostMapping("/createHotel")
+    public Hotel addHotel(@RequestBody Hotel hotel){
+    logger.info("Hotel a agregar: " + hotel);
+        return  this.hotelService.save(hotel);
+    }
+
+
+    //Guardar un nuevo empleado
     @PostMapping("/createEmployee")
-    public String createEmployee(@RequestBody Employee employee, Model model){
-        IEmployeeService.save(employee);
-        model.addAttribute("employee", employee);
-        return "redirect:/";
+    public Employee createEmployee(@RequestBody Employee employee){
+        return this.IEmployeeService.save(employee);
     }
     @PostMapping("/create_client")
     private String createClient(@RequestBody Client client, Model model){

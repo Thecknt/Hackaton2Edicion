@@ -24,8 +24,8 @@ public class EmployeeService implements IEmployeeService{
     }
 
     @Override
-    public void save(Employee employee) {
-        this.employeeRepository.save(employee);
+    public Employee save(Employee employee) {
+      return this.employeeRepository.save(employee);
     }
 
     @Override
