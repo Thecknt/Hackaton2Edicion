@@ -20,10 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.stream.Collectors;
 
 @CrossOrigin(value = "http://localhost:5173/")
-@RestController
 @RequestMapping("/")
-@CrossOrigin(origins = "http://localhost:5173")
-
+@RestController
 public class MainController {
 
     private static final Logger logger =
@@ -44,11 +42,13 @@ public class MainController {
     @Autowired
     private IClientService iClientService;
 
+    //rutas de prueba, eliminar luego
     @GetMapping("/hello")
     public String hello(){
         return "Hello World Not Secured";
     }
 
+    //ruta de prueba eliminar luego
     @GetMapping("/helloSecured")
     public String helloSecured(){
         return "Hello World Secured";
@@ -99,23 +99,10 @@ public class MainController {
         return  this.hotelService.save(hotel);
     }
 
-
     //Guardar un nuevo empleado
     @PostMapping("/createEmployee")
     public Employee createEmployee(@RequestBody Employee employee){
         return this.IEmployeeService.save(employee);
     }
-    @PostMapping("/create_client")
-    private String createClient(@RequestBody Client client, Model model){
-        iClientService.save(client);
-        model.addAttribute("client", client);
-        return "redirect:/create_client";
-    }
 
-    @PostMapping("/submit") // Ejemplo de manejo de una solicitud POST
-    public String handleSubmit() {
-        // Aquí puedes manejar la lógica de la solicitud POST
-        // por ejemplo, procesar datos enviados desde un formulario
-        return "redirect:/"; // Redirige a la página principal después de procesar el formulario
-    }
 }
