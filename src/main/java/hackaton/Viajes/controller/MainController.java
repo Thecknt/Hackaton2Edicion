@@ -21,6 +21,9 @@ import java.util.stream.Collectors;
 
 @CrossOrigin(value = "http://localhost:5173/")
 @RestController
+@RequestMapping("/")
+@CrossOrigin(origins = "http://localhost:5173")
+
 public class MainController {
 
     private static final Logger logger =

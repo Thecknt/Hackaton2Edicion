@@ -5,12 +5,12 @@ function Footer() {
   <>
   
 
-  <footer className="fixed bottom-0 left-0 w-full bg-white dark:bg-gray-900">
+  <footer className="w-full bg-white dark:bg-gray-900">
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
               <a href="https://flowbite.com/" className="flex items-center">
-                  <img src="https://img.molachinoviajes.com/gallery/var/albums/Rutas%20%281%29.png?m=1708897580g" className="h-28 me-3" alt="FlowBite Logo" />
+                  <img src="https://img.molachinoviajes.com/gallery/var/albums/Rutas.png?m=1709392703" className="h-28 me-3" alt="FlowBite Logo" />
                   <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Viajes Soñados</span>
               </a>
           </div>
