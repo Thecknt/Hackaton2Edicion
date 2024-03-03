@@ -1,7 +1,6 @@
 package hackaton.Viajes.service;
 
 import hackaton.Viajes.model.CarRental;
-
 import java.util.List;
 
 public interface ICarRentalService {
@@ -10,8 +9,8 @@ public interface ICarRentalService {
 
     public CarRental findById(Integer idCarRental);
 
-    public void save(CarRental carRental);
+    public CarRental save(CarRental carRental);
 
 
-    public void delete(CarRental carRental);
+    public void deleteById(Integer idCarRental);
 }

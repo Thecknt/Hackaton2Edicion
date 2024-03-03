@@ -1,7 +1,6 @@
 package hackaton.Viajes.service;
 
 import hackaton.Viajes.model.Sales;
-
 import java.util.List;
 
 public interface ISalesService {
@@ -10,7 +9,7 @@ public interface ISalesService {
 
     public Sales findById(Integer numSales);
 
-    public void save(Sales sales);
+    public Sales save(Sales sales);
 
-    public void delete(Sales sales);
+    public void deleteById(Integer idSales);
 }

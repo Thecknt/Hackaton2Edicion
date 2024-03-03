@@ -1,7 +1,6 @@
 package hackaton.Viajes.service;
 
 import hackaton.Viajes.model.Transportation;
-
 import java.util.List;
 
 public interface ITransportationService {
@@ -10,7 +9,7 @@ public interface ITransportationService {
 
     public Transportation findById(Integer idTransportation);
 
-    public void save(Transportation transportation);
+    public Transportation save(Transportation transportation);
 
-    public void delete(Transportation transportation);
+    public void deleteById(Integer idTransportation);
 }

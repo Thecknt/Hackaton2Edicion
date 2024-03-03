@@ -9,8 +9,8 @@ public interface IEventService {
 
    public Event findById(Integer idEvent);
 
-   public void save(Event event);
+   public Event save(Event event);
 
-   public void delete(Event event);
+   public void deleteById(Integer idEvent);
 
 }
