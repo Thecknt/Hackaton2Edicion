@@ -42,18 +42,6 @@ public class MainController {
     @Autowired
     private IClientService iClientService;
 
-    //rutas de prueba, eliminar luego
-    @GetMapping("/hello")
-    public String hello(){
-        return "Hello World Not Secured";
-    }
-
-    //ruta de prueba eliminar luego
-    @GetMapping("/helloSecured")
-    public String helloSecured(){
-        return "Hello World Secured";
-    }
-
     @PostMapping("/login")
     public String login(){
         return "login";
@@ -92,7 +80,7 @@ public class MainController {
         return hotels;
     }
 
-    //Agregar un Hotel
+    //Agregar un Hotel, tambien sirve este metodo para actualizar
     @PostMapping("/createHotel")
     public Hotel addHotel(@RequestBody Hotel hotel){
     logger.info("Hotel a agregar: " + hotel);
@@ -104,5 +92,11 @@ public class MainController {
     public Employee createEmployee(@RequestBody Employee employee){
         return this.IEmployeeService.save(employee);
     }
-
+    git s
+    //Eliminar usuario
+    @DeleteMapping("/deleteUser")
+    public String deleteUser(@RequestParam String id){
+        userRepository.deleteById(Integer.parseInt(id));
+        return "Se ha borrado el user con id".concat(id);
+    }
 }
