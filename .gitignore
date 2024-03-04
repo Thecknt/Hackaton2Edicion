@@ -19,7 +19,7 @@ target/
 *.iml
 *.ipr
 # Ignorar el archivo application.properties
-#application.properties
+application.properties
 
 ### NetBeans ###
 /nbproject/private/

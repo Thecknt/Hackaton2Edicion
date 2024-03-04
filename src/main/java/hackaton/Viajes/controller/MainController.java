@@ -1,6 +1,7 @@
 package hackaton.Viajes.controller;
 
 import hackaton.Viajes.controller.request.CreateUserDTO;
+import hackaton.Viajes.exception.ResourceNotFoundException;
 import hackaton.Viajes.model.*;
 import hackaton.Viajes.repository.UserRepository;
 import hackaton.Viajes.service.IClientService;
@@ -12,14 +13,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.stream.Collectors;
 
-@CrossOrigin(value = "http://localhost:5173/")
+//@CrossOrigin(value = "http://localhost:5173/")
+@CrossOrigin(origins = "*") //Despues hay que eliminar esta linea y poner solo la del front, esto es solo para pruebas
 @RequestMapping("/")
 @RestController
 public class MainController {
@@ -81,18 +84,62 @@ public class MainController {
     }
 
     //Agregar un Hotel, tambien sirve este metodo para actualizar
-    @PostMapping("/createHotel")
+    @PostMapping("/hotels")
     public Hotel addHotel(@RequestBody Hotel hotel){
     logger.info("Hotel a agregar: " + hotel);
         return  this.hotelService.save(hotel);
     }
+
+    //Buscar un Hotel
+    @GetMapping("/hotels/{id}")
+    public ResponseEntity<Hotel> findHotelById(@PathVariable int idTuristicService){
+        Hotel hotel = this.hotelService.findById(idTuristicService);
+        if(hotel != null)
+            return ResponseEntity.ok(hotel);
+        else
+         throw new ResourceNotFoundException("Hotel no encontrado, id:" + idTuristicService);
+    }
+
+    //Editar un Hotel
+    @PutMapping("/hotels/{id}")
+    public ResponseEntity<Hotel> updateHotel(@PathVariable Integer idTuristicService,
+                                             @RequestBody Hotel hotelReceived){
+          Hotel hotel = this.hotelService.findById(idTuristicService);
+          if (hotel == null)
+              throw new ResourceNotFoundException("No se encontro el hotel con id: "+ idTuristicService);
+          hotel.setName(hotelReceived.getName());
+          hotel.setBriefDescription(hotelReceived.getBriefDescription());
+          hotel.setPriceCost(hotelReceived.getPriceCost());
+          hotel.setServiceDate(hotelReceived.getServiceDate());
+          hotel.setStars(hotelReceived.getStars());
+          hotel.setNumberOfNights(hotelReceived.getNumberOfNights());
+          hotel.setServiceDestination(hotelReceived.getServiceDestination());
+          this.hotelService.save(hotel);
+          return ResponseEntity.ok(hotel);
+    }
+
+
+    //Eliminar un hotel
+    @DeleteMapping("/productos/{id}")
+    public ResponseEntity<Map<String, Boolean>> deleteHotel(@PathVariable Integer idTuristicService){
+        Hotel hotel = this.hotelService.findById(idTuristicService);
+        if (hotel == null)
+            throw new ResourceNotFoundException("No se encontro el Hotel con id: "+ idTuristicService);
+        this.hotelService.deleteById(hotel.getIdTouristicService());
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("delete",Boolean.TRUE);
+        logger.info("Hotel eliminado: " + hotel);
+        return  ResponseEntity.ok(response);
+    }
+
+
 
     //Guardar un nuevo empleado
     @PostMapping("/createEmployee")
     public Employee createEmployee(@RequestBody Employee employee){
         return this.IEmployeeService.save(employee);
     }
-    git s
+
     //Eliminar usuario
     @DeleteMapping("/deleteUser")
     public String deleteUser(@RequestParam String id){

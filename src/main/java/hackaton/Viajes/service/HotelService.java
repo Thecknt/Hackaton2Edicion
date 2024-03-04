@@ -30,7 +30,7 @@ public class HotelService implements IHotelService{
 
     @Override
     public void deleteById(Integer idHotel) {
-        this.hotelRepository.deleteById(idHotel);
+      this.hotelRepository.deleteById(idHotel);
     }
 
 
