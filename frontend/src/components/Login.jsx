@@ -1,6 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('http://localhost:8080/login', {
+        username,
+        password,
+      });
+
+      if (response.data.success) {
+        alert('Inicio de sesión exitoso');
+        navigate('/about');
+      } else {
+        alert('Error en el inicio de sesión');
+      }
+    } catch (error) {
+      console.error('Error en el inicio de sesión:', error);
+      alert('Error en el inicio de sesión');
+    }
+  };
   return (
     <>
 <section className="h-screen bg-amber-100 dark:bg-gray-900 mt-0"> 
@@ -34,14 +60,14 @@ function Login() {
              Inicio de Sesión
             </p>
           </div>
-
           <div className="mb-6">
-  <label htmlFor="email" className="relative top-2 pointer-events-none text-orange-500 font-bold transition-none border-b border-gray-300">Email address</label>
+  <label htmlFor="username" className="relative top-2 pointer-events-none text-orange-500 font-bold transition-none border-b border-gray-300">Username</label>
   <input
-    type="email"
-    id="email"
+    type="text"
+    id="username"
     className="mt-6 border border-gray-300 text-orange-500 font-bold rounded-md w-full h-10 text-gray-700"
-    placeholder="Enter your email"
+    placeholder="Enter your username"
+    onChange={e => setUsername(e.target.value)}
   />
 </div>
 
@@ -52,8 +78,10 @@ function Login() {
     id="password"
     className="mt-6 border text-orange-500 font-bold border-gray-300 rounded-md w-full h-10 text-gray-700"
     placeholder="Enter your password"
+    onChange={e => setPassword(e.target.value)}
   />
 </div>
+
 
           <div className="mb-6 flex items-center justify-between">
             {/* <!-- Remember me checkbox --> */}
@@ -101,7 +129,8 @@ function Login() {
 
           <div className="text-center lg:text-left">
           <button
-  type="button"
+          onClick={handleSubmit}
+  type="submit"
   className="inline-block rounded bg-amber-500 px-6 pb-2 pt-2.5 
   text-xs font-medium uppercase leading-normal text-white 
   shadow-[0_4px_9px_-4px_#e4a11b] transition duration-150 ease-in-out hover:bg-amber-600 hover:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.3),0_4px_18px_0_rgba(228,161,27,0.2)] focus:bg-warning-600 focus:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.3),0_4px_18px_0_rgba(228,161,27,0.2)] focus:outline-none focus:ring-0 active:bg-warning-700 active:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.3),0_4px_18px_0_rgba(228,161,27,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(228,161,27,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.2),0_4px_18px_0_rgba(228,161,27,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.2),0_4px_18px_0_rgba(228,161,27,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.2),0_4px_18px_0_rgba(228,161,27,0.1)]">
