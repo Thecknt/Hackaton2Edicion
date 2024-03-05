@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -42,9 +43,16 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(config -> config.disable())
                 .authorizeHttpRequests(auth ->{
+                    auth.requestMatchers(HttpMethod.GET, "/hotels","/clients")
+                            .permitAll();
                     auth.requestMatchers("/createUser","/","/authentication","/hello","/login")
                             .permitAll();
-                    auth.requestMatchers("/createHotel","/deleteUser").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/hotels").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/clients").hasAnyRole("CLIENT","EMPLOYEE");
+                    auth.requestMatchers(HttpMethod.DELETE,"/hotels/{id}","clients/{id}").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.PUT, "/hotels/{id}").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.PUT, "/clients/{id}").hasRole("Employee");
+                    auth.requestMatchers("/deleteUser").hasRole("ADMIN");
                     auth.requestMatchers("/createClient","/createUser")
                             .hasAnyRole("ADMIN","EMPLOYEE");
                     auth.requestMatchers("/helloSecured","/myPurchases").hasAnyRole("ADMIN","CLIENT");

@@ -1,9 +1,6 @@
 package hackaton.Viajes.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,5 +27,7 @@ public class Employee{
     private LocalDate dateOfBird;
     private String nationality;
     private String celuphone;
-    private String email;
+
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UserEntity user;
 }
