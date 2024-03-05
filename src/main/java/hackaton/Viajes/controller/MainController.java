@@ -11,17 +11,20 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import java.util.stream.Collectors;
 
-@CrossOrigin(value = "http://localhost:5173/")
+@CrossOrigin(value = "http://localhost:5173")
 //@CrossOrigin(origins = "*") //Despues hay que eliminar esta linea y poner solo la del front, esto es solo para pruebas
 @RequestMapping("/")
 @RestController
@@ -45,12 +48,24 @@ public class MainController {
     @Autowired
     private IClientService iClientService;
 
-    @PostMapping("/login")
-    public String login(){
-        return "login";
-    }
+    //@PostMapping("/login")
+    //public ResponseEntity<?> login(@RequestBody User user){
+        // Aquí deberías buscar al usuario en tu base de datos usando el nombre de usuario proporcionado
+        // y luego comparar la contraseña proporcionada con la almacenada en la base de datos.
+        // Si las contraseñas coinciden, entonces el inicio de sesión es exitoso.
+        // Si no coinciden o si el usuario no se encuentra en la base de datos, entonces el inicio de sesión falla.
 
-   //Registro para un nuevo usuario desde el inicio, tambien puede ser usado desde el rol empleado
+        // Este es solo un ejemplo y necesitarás adaptarlo para que funcione con tu base de datos y tu sistema de autenticación.
+        //User userInDb = userRepository.findByUsername(user.getUsername());
+        //if(userInDb != null && userInDb.getPassword().equals(user.getPassword())){
+            //return new ResponseEntity<>("Inicio de sesión exitoso", HttpStatus.OK);
+        //} else {
+            //return new ResponseEntity<>("Error en el inicio de sesión", HttpStatus.UNAUTHORIZED);
+        //}
+   // }
+
+
+    //Registro para un nuevo usuario desde el inicio, tambien puede ser usado desde el rol empleado
     @PostMapping("/createUser")
     public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserDTO createUserDTO){
 

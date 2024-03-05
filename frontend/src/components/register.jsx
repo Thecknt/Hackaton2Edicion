@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("Las contraseñas no coinciden");
+      alert('Las contraseñas no coinciden');
       return;
     }
 
@@ -20,16 +22,20 @@ function Register() {
         username,
         email,
         password,
-        roles: ['CLIENT'] // Especifica el rol del usuario como 'CLIENT'
+        roles: ['CLIENT'], // Specify user role
       });
+
       console.log(response.data);
-      alert("Usuario creado exitosamente");
-      // Redirigir a la página de inicio de sesión u otra página
+      alert('Usuario creado exitosamente');
+
+      // Redirigir a la página de inicio de sesión
+      navigate('/login');
     } catch (error) {
       console.error('Error al crear usuario:', error);
-      alert("Error al crear usuario");
+      alert('Error al crear usuario');
     }
   };
+
 
   return (
     <>
