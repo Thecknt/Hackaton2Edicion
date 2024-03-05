@@ -20,7 +20,7 @@ function Register() {
         username,
         email,
         password,
-        roles: ['CLIENT'] // Especifica el rol del usuario como 'CLIENT'
+   
       });
       console.log(response.data);
       alert("Usuario creado exitosamente");
