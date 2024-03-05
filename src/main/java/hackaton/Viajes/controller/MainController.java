@@ -74,7 +74,66 @@ public class MainController {
         return ResponseEntity.ok(userEntity);
     }
 
-    //Consultar todos los clientes
+    //Consultar todos los empleados de la base de datos
+    @GetMapping("/employee")
+    public List<Employee> getEmployees(){
+        List<Employee> employees = this.IEmployeeService.employees();
+        logger.info("Los empleados en la base de datos son: ");
+        employees.forEach((employee -> logger.info(employee.toString())));
+        return employees;
+    }
+
+    //Agregar un empleado a la base de datos
+    @PostMapping("/createEmployee")
+    public Employee addEmployee(@RequestBody Employee employee){
+        logger.info("Empleado guardado en la base de datos: "+ employee);
+        return this.IEmployeeService.save(employee);
+    }
+
+    //Buscar empleado por Id en la base de datos
+    @GetMapping("/employee/{id}")
+    public ResponseEntity<Employee> findEmployeeById(@PathVariable Integer id){
+      Employee employee = this.IEmployeeService.findById(id);
+      if (employee != null)
+             return ResponseEntity.ok(employee);
+      else
+          throw new ResourceNotFoundException("Empleado no encontrado con el id: "+ id);
+    }
+
+    //Editar un empleado en la base de datos
+    @PutMapping("/employee/{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Integer id,
+                                                   @RequestBody Employee employeeReceived){
+       Employee employee = this.IEmployeeService.findById(id);
+        if (employee == null)
+            throw new ResourceNotFoundException("cliente no encontrado: "+ id);
+        employee.setName(employeeReceived.getName());
+        employee.setLastname(employeeReceived.getLastname());
+        employee.setDni(employeeReceived.getDni());
+        employee.setCeluphone(employeeReceived.getCeluphone());
+        employee.setDateOfBird(employeeReceived.getDateOfBird());
+        employee.setAddress(employeeReceived.getAddress());
+        employee.setNationality(employeeReceived.getNationality());
+        employee.setUser(employeeReceived.getUser());
+        this.IEmployeeService.save(employee);
+        return ResponseEntity.ok(employee);
+    }
+
+    //Eliminar un empleado de la base de datos
+    @DeleteMapping("/employee/{id}")
+    public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable Integer id){
+        Employee employee = this.IEmployeeService.findById(id);
+        if (employee == null)
+            throw new ResourceNotFoundException("No se encontro el empleado con el id: "+id);
+        this.IEmployeeService.deleteById(id);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("Eliminado", Boolean.TRUE);
+        logger.info("Empleado eliminado con el id: "+ id);
+        return ResponseEntity.ok(response);
+    }
+
+
+    //Consultar todos los clientes de la base de datos.
     @GetMapping("/clients")
     public List<Client> getClients(){
         List<Client> clients = this.iClientService.clients();
@@ -83,16 +142,16 @@ public class MainController {
         return clients;
     }
 
-    //Agregar un cliente, tambien sirve para actualizar
-    @PostMapping("/clients")
+    //Agregar un cliente en la base de datos
+    @PostMapping("/createClients")
     public Client addClient(@RequestBody Client client){
         logger.info("El cliente agregado es: "+ client);
         return this.iClientService.save(client);
     }
 
-    //Buscar Un cliente por ID:
+    //Buscar Un cliente por ID en la base datos
     @GetMapping("/clients/{id}")
-    public ResponseEntity<Client> findclientById(@PathVariable int id){
+    public ResponseEntity<Client> findclientById(@PathVariable Integer id){
         Client client = this.iClientService.findById(id);
         if (client != null)
             return ResponseEntity.ok(client);
@@ -100,9 +159,9 @@ public class MainController {
          throw new ResourceNotFoundException("Este cliente: "+ id + " no ha sido encontrado");
     }
 
-    //Editar un Cliente
+    //Editar un Cliente en la base de datos
     @PutMapping("/clients/{id}")
-    public ResponseEntity<Client> updateClient(@PathVariable int id
+    public ResponseEntity<Client> updateClient(@PathVariable Integer id
             ,@RequestBody Client clientReceived){
         Client client = this.iClientService.findById(id);
         if (client == null)
@@ -119,7 +178,7 @@ public class MainController {
         return ResponseEntity.ok(client);
     }
 
-    //Eliminar un cliente
+    //Eliminar un cliente de la base de datos
     @DeleteMapping("/hotels/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteClient(@PathVariable Integer id){
         Client client = this.iClientService.findById(id);
@@ -128,11 +187,11 @@ public class MainController {
         this.iClientService.deleteById(client.getIdClient());
         Map<String, Boolean> response = new HashMap<>();
         response.put("Eliminado", Boolean.TRUE);
-        logger.info("Cliente eliminado con el id: "+id);
+        logger.info("Cliente eliminado con el id: "+ id);
         return ResponseEntity.ok(response);
     }
 
-    //Consultar Todos los hoteles en db
+    //Consultar Todos los hoteles en la base de datos
     @GetMapping("/hotels")
     public List<Hotel> getHotels(){
         List<Hotel> hotels = this.hotelService.hotels();
@@ -141,30 +200,30 @@ public class MainController {
         return hotels;
     }
 
-    //Agregar un Hotel, tambien sirve este metodo para actualizar
-    @PostMapping("/hotels")
+    //Crear un Hotel en la base de datos
+    @PostMapping("/createHotels")
     public Hotel addHotel(@RequestBody Hotel hotel){
     logger.info("Hotel a agregar: " + hotel);
         return  this.hotelService.save(hotel);
     }
 
-    //Buscar un Hotel
+    //Buscar un Hotel en la base de datos
     @GetMapping("/hotels/{id}")
-    public ResponseEntity<Hotel> findHotelById(@PathVariable int idTuristicService){
-        Hotel hotel = this.hotelService.findById(idTuristicService);
+    public ResponseEntity<Hotel> findHotelById(@PathVariable Integer id){
+        Hotel hotel = this.hotelService.findById(id);
         if(hotel != null)
             return ResponseEntity.ok(hotel);
         else
-         throw new ResourceNotFoundException("Hotel no encontrado, id:" + idTuristicService);
+         throw new ResourceNotFoundException("Hotel no encontrado, id:" + id);
     }
 
-    //Editar un Hotel
+    //Editar un Hotel de la base de datos
     @PutMapping("/hotels/{id}")
-    public ResponseEntity<Hotel> updateHotel(@PathVariable Integer idTuristicService,
+    public ResponseEntity<Hotel> updateHotel(@PathVariable Integer id,
                                              @RequestBody Hotel hotelReceived){
-          Hotel hotel = this.hotelService.findById(idTuristicService);
+          Hotel hotel = this.hotelService.findById(id);
           if (hotel == null)
-              throw new ResourceNotFoundException("No se encontro el hotel con id: "+ idTuristicService);
+              throw new ResourceNotFoundException("No se encontro el hotel con id: "+ id);
           hotel.setName(hotelReceived.getName());
           hotel.setBriefDescription(hotelReceived.getBriefDescription());
           hotel.setPriceCost(hotelReceived.getPriceCost());
@@ -177,12 +236,12 @@ public class MainController {
     }
 
 
-    //Eliminar un hotel
+    //Eliminar un hotel de la base de datos
     @DeleteMapping("/productos/{id}")
-    public ResponseEntity<Map<String, Boolean>> deleteHotel(@PathVariable Integer idTuristicService){
-        Hotel hotel = this.hotelService.findById(idTuristicService);
+    public ResponseEntity<Map<String, Boolean>> deleteHotel(@PathVariable Integer id){
+        Hotel hotel = this.hotelService.findById(id);
         if (hotel == null)
-            throw new ResourceNotFoundException("No se encontro el Hotel con id: "+ idTuristicService);
+            throw new ResourceNotFoundException("No se encontro el Hotel con id: "+ id);
         this.hotelService.deleteById(hotel.getIdTouristicService());
         Map<String, Boolean> response = new HashMap<>();
         response.put("delete",Boolean.TRUE);
@@ -190,15 +249,7 @@ public class MainController {
         return  ResponseEntity.ok(response);
     }
 
-
-
-    //Guardar un nuevo empleado
-    @PostMapping("/createEmployee")
-    public Employee createEmployee(@RequestBody Employee employee){
-        return this.IEmployeeService.save(employee);
-    }
-
-    //Eliminar usuario
+    //Eliminar usuario de la base de datos
     @DeleteMapping("/deleteUser")
     public String deleteUser(@RequestParam String id){
         userRepository.deleteById(Integer.parseInt(id));

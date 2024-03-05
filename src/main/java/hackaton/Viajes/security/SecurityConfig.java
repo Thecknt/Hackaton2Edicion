@@ -43,15 +43,14 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(config -> config.disable())
                 .authorizeHttpRequests(auth ->{
-                    auth.requestMatchers(HttpMethod.GET, "/hotels","/clients")
+                    auth.requestMatchers(HttpMethod.GET, "/hotels","/clients","/employee")
                             .permitAll();
-                    auth.requestMatchers("/createUser","/","/authentication","/hello","/login")
+                    auth.requestMatchers("/createUser","/","/login")
                             .permitAll();
-                    auth.requestMatchers(HttpMethod.POST, "/hotels").hasRole("ADMIN");
-                    auth.requestMatchers(HttpMethod.POST, "/clients").hasAnyRole("CLIENT","EMPLOYEE");
-                    auth.requestMatchers(HttpMethod.DELETE,"/hotels/{id}","clients/{id}").hasRole("ADMIN");
-                    auth.requestMatchers(HttpMethod.PUT, "/hotels/{id}").hasRole("ADMIN");
-                    auth.requestMatchers(HttpMethod.PUT, "/clients/{id}").hasRole("Employee");
+                    auth.requestMatchers(HttpMethod.POST, "/createHotels","/createEmployee").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/createClients").hasAnyRole("CLIENT","EMPLOYEE");
+                    auth.requestMatchers(HttpMethod.DELETE,"/hotels/{id}","clients/{id}","/employee/{id}").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.PUT, "/hotels/{id}", "/clients/{id}","/employee/{id}").hasAnyRole("ADMIN","EMPLOYEE");
                     auth.requestMatchers("/deleteUser").hasRole("ADMIN");
                     auth.requestMatchers("/createClient","/createUser")
                             .hasAnyRole("ADMIN","EMPLOYEE");
