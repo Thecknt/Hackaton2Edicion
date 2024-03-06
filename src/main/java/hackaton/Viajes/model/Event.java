@@ -14,4 +14,7 @@ import lombok.ToString;
 @ToString
 public class Event extends TouristicService{
     private String typeEvent;
+    private String nameOfEvent;
+    private Double priceTicket;
+    private Integer amountOfTickets;
 }

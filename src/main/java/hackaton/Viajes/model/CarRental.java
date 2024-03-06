@@ -16,4 +16,7 @@ import lombok.ToString;
 @Data
 public class CarRental extends TouristicService {
     private Integer amountOfDays;
+    private String typeOfCar;
+    private Integer priceByDay;
+    private Boolean rent;
 }

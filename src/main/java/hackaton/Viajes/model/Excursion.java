@@ -16,4 +16,7 @@ import lombok.ToString;
 @ToString
 public class Excursion extends TouristicService{
     private String typeCircuit;
+    private String nameOfCircuit;
+    private Double priceOfCircuit;
+    private Integer amountOfTickets;
 }

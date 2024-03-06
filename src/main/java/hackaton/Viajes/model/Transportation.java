@@ -19,4 +19,5 @@ import java.time.LocalDate;
 public class Transportation extends TouristicService{
     private Double priceTransportation;
     private String typeOfTransport;
+    private Integer amountOfTickets;
 }

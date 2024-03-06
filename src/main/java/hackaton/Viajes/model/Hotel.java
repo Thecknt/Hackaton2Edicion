@@ -16,5 +16,9 @@ import lombok.ToString;
 @ToString
 public class Hotel extends TouristicService {
      private String stars;
+     private Double priceHotel;
+     private String description;
      private Integer numberOfNights;
+     private String nameOfHotel;
+     private String location;
 }
