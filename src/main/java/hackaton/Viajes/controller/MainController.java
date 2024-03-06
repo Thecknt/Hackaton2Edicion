@@ -4,9 +4,7 @@ import hackaton.Viajes.controller.request.CreateUserDTO;
 import hackaton.Viajes.exception.ResourceNotFoundException;
 import hackaton.Viajes.model.*;
 import hackaton.Viajes.repository.UserRepository;
-import hackaton.Viajes.service.IClientService;
-import hackaton.Viajes.service.IEmployeeService;
-import hackaton.Viajes.service.IHotelService;
+import hackaton.Viajes.service.*;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +46,15 @@ public class MainController {
 
     @Autowired
     private IClientService iClientService;
+
+    @Autowired
+    private IEventService eventService;
+
+    @Autowired
+    private ICarRentalService carRentalService;
+
+    @Autowired
+    private IExcursionService excursionService;
 
     //@PostMapping("/login")
     //public ResponseEntity<?> login(@RequestBody User user){
@@ -129,6 +137,8 @@ public class MainController {
         employee.setDateOfBird(employeeReceived.getDateOfBird());
         employee.setAddress(employeeReceived.getAddress());
         employee.setNationality(employeeReceived.getNationality());
+        employee.setPosition(employeeReceived.getPosition());
+        employee.setSalary(employeeReceived.getSalary());
         employee.setUser(employeeReceived.getUser());
         this.IEmployeeService.save(employee);
         return ResponseEntity.ok(employee);
@@ -239,13 +249,12 @@ public class MainController {
           Hotel hotel = this.hotelService.findById(id);
           if (hotel == null)
               throw new ResourceNotFoundException("No se encontro el hotel con id: "+ id);
-          hotel.setName(hotelReceived.getName());
-          hotel.setBriefDescription(hotelReceived.getBriefDescription());
-          hotel.setPriceCost(hotelReceived.getPriceCost());
-          hotel.setServiceDate(hotelReceived.getServiceDate());
+          hotel.setNameOfHotel(hotelReceived.getNameOfHotel());
+          hotel.setDescription(hotelReceived.getDescription());
+          hotel.setLocation(hotelReceived.getLocation());
           hotel.setStars(hotelReceived.getStars());
           hotel.setNumberOfNights(hotelReceived.getNumberOfNights());
-          hotel.setServiceDestination(hotelReceived.getServiceDestination());
+          hotel.setPriceHotel(hotelReceived.getPriceHotel());
           this.hotelService.save(hotel);
           return ResponseEntity.ok(hotel);
     }
@@ -269,5 +278,169 @@ public class MainController {
     public String deleteUser(@RequestParam String id){
         userRepository.deleteById(Integer.parseInt(id));
         return "Se ha borrado el user con id".concat(id);
+    }
+
+    //Consultar Todos los Eventos en la base de datos
+    @PostMapping("/event")
+    public List<Event> getAllEvents(){
+        List<Event> events = this.eventService.events();
+        logger.info("Estos son los eventos que hay guardados: ");
+        events.forEach((event -> logger.info(event.toString())));
+        return events;
+    }
+
+    //Crear un Evento en la base de datos
+    @PostMapping("/createEvent")
+    public Event addEvent(@RequestBody Event event){
+        logger.info("El Evento agregado es: "+ event);
+        return this.eventService.save(event);
+    }
+
+    //Buscar un Evento en la base de datos
+    @GetMapping("/event/{id}")
+    public ResponseEntity<Event> findEventById(@PathVariable Integer id){
+        Event event = this.eventService.findById(id);
+        if (event != null)
+            return ResponseEntity.ok(event);
+        else
+            throw new ResourceNotFoundException("Evento no encontrado con el id: "+ id);
+    }
+
+    //Editar un Evento en la base de datos
+    @PutMapping("/event/{id}")
+    public ResponseEntity<Event> updateEvent(@PathVariable Integer id,
+                                             @RequestBody Event eventReceived){
+        Event event = this.eventService.findById(id);
+        if (event == null)
+            throw new ResourceNotFoundException("Eventi no econtrado con el id: "+id);
+        event.setNameOfEvent(eventReceived.getNameOfEvent());
+        event.setTypeEvent(eventReceived.getTypeEvent());
+        event.setAmountOfTickets(eventReceived.getAmountOfTickets());
+        event.setPriceTicket(eventReceived.getPriceTicket());
+        this.eventService.save(event);
+        return ResponseEntity.ok(event);
+    }
+
+
+    //Eliminar un Evento de la base de datos
+    @DeleteMapping("/event/{id}")
+   public ResponseEntity<Map<String, Boolean>> deleteEvent(@PathVariable Integer id){
+        Event event = this.eventService.findById(id);
+        if (event == null)
+            throw new ResourceNotFoundException("No se encontro el Evento con el id: "+ id);
+        this.eventService.deleteById(event.getIdTouristicService());
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("delete",Boolean.TRUE);
+       logger.info("Evento eliminado: " + event);
+       return  ResponseEntity.ok(response);
+  }
+
+   //Consultar Todos los autos de alquiler en la base de datos
+    @PostMapping("/carRental")
+    public List<CarRental> getAllcars(){
+        List<CarRental> cars = this.carRentalService.listCar();
+       logger.info("Estos son los autos que hay guardados: ");
+        cars.forEach((car -> logger.info(car.toString())));
+        return cars;
+   }
+
+    //Crear un auto para rentar en la base de datos
+   @PostMapping("/createCarRental")
+    public CarRental addCar(@RequestBody CarRental carRental){
+        logger.info("El auto agregado es: "+ carRental);
+       return this.carRentalService.save(carRental);
+    }
+
+   //Buscar un auto en la base de datos
+    @GetMapping("/carRental/{id}")
+    public ResponseEntity<CarRental> findCarById(@PathVariable Integer id){
+        CarRental carRental = this.carRentalService.findById(id);
+        if (carRental != null)
+            return ResponseEntity.ok(carRental);
+        else
+            throw new ResourceNotFoundException("Auto de alquiler no encontrado con el id: "+ id);
+    }
+
+    //Editar un auto de alquiler en la base de datos
+    @PutMapping("/carRental/{id}")
+   public ResponseEntity<CarRental> updateCarRental(@PathVariable Integer id,
+                                             @RequestBody CarRental carReceived){
+        CarRental carRental = this.carRentalService.findById(id);
+       if (carRental == null)
+            throw new ResourceNotFoundException("El auto de alquiler no fue econtrado con el id: "+id);
+        carRental.setTypeOfCar(carReceived.getTypeOfCar());
+        carRental.setRent(carReceived.getRent()); //v o f si renta o no el cliente
+        carRental.setAmountOfDays(carReceived.getAmountOfDays());
+        carRental.setPriceByDay(carReceived.getPriceByDay());
+        this.carRentalService.save(carRental);
+        return ResponseEntity.ok(carRental);
+     }
+
+    //Eliminar un Evento de la base de datos
+    @DeleteMapping("/carRental/{id}")
+    public ResponseEntity<Map<String, Boolean>> deleteCarRental(@PathVariable Integer idTouristicService){
+        CarRental carRental = this.carRentalService.findById(idTouristicService);
+        if (carRental == null)
+            throw new ResourceNotFoundException("No se encontro el Auto de alquiler con el id: "+ idTouristicService);
+        this.carRentalService.deleteById(carRental.getIdTouristicService());
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("delete",Boolean.TRUE);
+        logger.info("Auto de alquiler eliminado: " + carRental);
+        return  ResponseEntity.ok(response);
+    }
+
+    //Consultar Todas las Excursiones en la base de datos
+    @PostMapping("/excursion")
+    public List<Excursion> getAllExcursions(){
+        List<Excursion> excursions = this.excursionService.excursions();
+        logger.info("Estos son las excursiones que hay guardados: ");
+        excursions.forEach((excursion -> logger.info(excursion.toString())));
+        return excursions;
+    }
+
+    //Crear una Excursion en la base de datos
+    @PostMapping("/excursion")
+    public Excursion addExcursion(@RequestBody Excursion excursion) {
+        logger.info("La Eexcursion agregado es: " + excursion);
+        return this.excursionService.save(excursion);
+    }
+
+
+    //Buscar un excursion en la base de datos
+    @GetMapping("/excursion/{id}")
+    public ResponseEntity<Excursion> findExcursionById(@PathVariable Integer id){
+        Excursion excursion = this.excursionService.findById(id);
+        if (excursion != null)
+            return ResponseEntity.ok(excursion);
+        else
+            throw new ResourceNotFoundException("Excursion no encontrado con el id: "+ id);
+    }
+
+    //Editar una Excursion en la base de datos
+    @PutMapping("/excursion/{id}")
+    public ResponseEntity<Excursion> updateExcursion(@PathVariable Integer id,
+                                                     @RequestBody Excursion excursionReceived){
+        Excursion excursion = this.excursionService.findById(id);
+        if (excursion == null)
+            throw new ResourceNotFoundException("La excursion no fue econtrada con el id: "+id);
+        excursion.setTypeCircuit(excursionReceived.getTypeCircuit());
+        excursion.setNameOfCircuit(excursionReceived.getNameOfCircuit());
+        excursion.setPriceOfCircuit(excursionReceived.getPriceOfCircuit());
+        excursion.setAmountOfTickets(excursionReceived.getAmountOfTickets());
+        this.excursionService.save(excursion);
+        return ResponseEntity.ok(excursion);
+    }
+
+    //Eliminar un Evento de la base de datos
+    @DeleteMapping("/excursion/{id}")
+    public ResponseEntity<Map<String, Boolean>> deleteExcursion(@PathVariable Integer idTouristicService){
+        Excursion excursion = this.excursionService.findById(idTouristicService);
+        if (excursion == null)
+            throw new ResourceNotFoundException("No se encontro la excursion con el id: "+ idTouristicService);
+        this.excursionService.deleteById(excursion.getIdTouristicService());
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("delete",Boolean.TRUE);
+        logger.info("Excursion eliminada: " + excursion);
+        return  ResponseEntity.ok(response);
     }
 }
