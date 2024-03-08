@@ -399,7 +399,7 @@ public class MainController {
     }
 
     //Crear una Excursion en la base de datos
-    @PostMapping("/excursion")
+    @PostMapping("/excursioerrrewren")
     public Excursion addExcursion(@RequestBody Excursion excursion) {
         logger.info("La Eexcursion agregado es: " + excursion);
         return this.excursionService.save(excursion);
