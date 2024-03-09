@@ -5,29 +5,57 @@ import { useNavigate } from 'react-router-dom';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [ token, setToken] = useState('');
   const navigate = useNavigate();
+
+  const loginUrl = 'http://localhost:8080/login';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.post('http://localhost:8080/login', {
-        username,
-        password,
-      });
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: username, password: password })
+    };
 
-      if (response.data.success) {
-        alert('Inicio de sesión exitoso');
-        navigate('/about');
+    try {
+
+      const response = await fetch('http://localhost:8080/login', requestOptions); 
+      
+      if(response.ok){
+        const data = await response.json();
+
+        if(data.success){
+          //si esta todo bien guardo el token en localStrorage
+          localStorage.setItem('token', data.token);
+
+          //Actualizo el token en el estado
+          setToken(data.token);
+
+          //Ahora obtengo la info del usuario
+          getUserInfo();
+
+          navigate('/about');
+        } else {
+          alert('Error en el inicio de session');
+        }
       } else {
         alert('Error en el inicio de sesión');
       }
-    } catch (error) {
-      console.error('Error en el inicio de sesión:', error);
-      alert('Error en el inicio de sesión');
-    }
-  };
-  return (
+      } 
+        catch (error) {
+          console.error('Error en el inicio de sesión:', error);
+          alert('Error en el inicio de sesión');
+        }
+    } 
+
+  
+  const logout= ()=>{
+localStorage.removeItem('token');
+  }
+
+     return (
     <>
 <section className="h-screen bg-amber-100 dark:bg-gray-900 mt-0"> 
  <div className=" mt-0 dark:text-white">  
