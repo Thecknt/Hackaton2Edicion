@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate desde react-router-dom
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [token, setToken] = useState('');
-    const navigate = useNavigate(); // Utiliza useNavigate para la navegación
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const loginUrl = 'http://localhost:8080/login';
 
@@ -14,21 +14,15 @@ function Login() {
         e.preventDefault();
 
         try {
-
             const response = await axios.post(loginUrl, { username, password }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
 
-            if (response.data) {
+            if (response.status === 200) {
                 alert('Inicio de sesión exitoso');
-
-                //Aca obtengo el token de la cabecera, lo guardo en la variable y lo pusheo al localStorage
-                const token = response.headers['x-auth-token'];
-                localStorage.setItem('token', token);
-
-                navigate('/about');
+                navigate('/about'); // Redirige al usuario a la página "/about"
             } else {
                 alert('Error en el inicio de sesión');
             }
@@ -36,7 +30,6 @@ function Login() {
             if (error.response) {
                 console.error('Error en el inicio de sesión:', error.response.data);
                 alert(error.response ? error.response.data : 'Error en el inicio de sesión');
-
             } else if (error.request) {
                 console.error('Error en el inicio de sesión:', error.request);
                 alert('Error en el inicio de sesión: Request failed');
@@ -45,16 +38,6 @@ function Login() {
                 alert('Error en el inicio de sesión: ' + error.message);
             }
         }
-    };
-
-    //Esta funcion sebas es para saber si el usuario esta authenticado
-    const isAuthenticated = () => {
-        return localStorage.getItem('token') != null;
-    };
-
-    //Esta funcion es para desloguearse y sacar el token del localStorage
-    const logout = () => {
-        localStorage.removeItem('token');
     };
 
     return (

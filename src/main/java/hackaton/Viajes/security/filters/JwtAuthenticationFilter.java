@@ -42,7 +42,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
              username = userEntity.getUsername();
              password = userEntity.getPassword();
             System.out.println("username: " + username);
-            System.out.println("password:" + password);
+            System.out.println("password: " + password);
         } catch (StreamReadException e){
             throw new RuntimeException(e);
         }catch (DatabindException e) {
@@ -54,7 +54,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password);
 
-        System.out.println("authentication token: "+authenticationToken);
+        System.out.println("authentication token: "+ authenticationToken);
         return getAuthenticationManager().authenticate(authenticationToken);
     }
 
