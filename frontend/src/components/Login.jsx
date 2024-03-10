@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 function Login() {
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [ token, setToken] = useState('');
@@ -182,6 +182,7 @@ localStorage.removeItem('token');
 </section>
     </>
   )
+
 }
 
-export default Login
+export default Login;
