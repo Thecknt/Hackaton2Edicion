@@ -5,10 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Table(name = "touristic_service")
 @Data
 @AllArgsConstructor
@@ -17,7 +20,7 @@ import java.util.Date;
 public class TouristicService {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     protected Integer idTouristicService;
     protected String name;
     protected String briefDescription;
@@ -25,31 +28,23 @@ public class TouristicService {
     protected Date serviceDate;
     protected Double priceCost;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "touristicService", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Hotel> hotels = new ArrayList<>();
+
+    @OneToMany(mappedBy = "touristicService", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Excursion> excursions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "touristicService", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CarRental> carRentals = new ArrayList<>();
+
+    @OneToMany(mappedBy = "touristicService", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Event> events = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idTourPackage")
-    TourPackage tourPackage;
-//
-//    @ManyToOne(cascade = CascadeType.REMOVE)
-//    @JoinColumn(name = "idHotel")
-//    Hotel hotel;
-//
-//    @ManyToOne(cascade = CascadeType.REMOVE)
-//    @JoinColumn(name = "idCarRental")
-//    CarRental carRental;
-//
-//    @ManyToOne(cascade = CascadeType.REMOVE)
-//    @JoinColumn(name = "idTransportation")
-//    Transportation transportation;
-//
-//    @ManyToOne(cascade = CascadeType.REMOVE)
-//    @JoinColumn(name = "idEvent")
-//    Event event;
-//
-//    @ManyToOne(cascade = CascadeType.REMOVE)
-//    @JoinColumn(name = "idEmployee")
-//    Employee employee;
-//
-//    @ManyToOne(cascade = CascadeType.REMOVE)
-//    @JoinColumn(name = "idClient")
-//    Client client;
+    private TourPackage tourPackage;
+
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "idClient")
+    Client client;
 }
