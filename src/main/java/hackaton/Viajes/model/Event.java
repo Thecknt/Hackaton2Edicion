@@ -7,14 +7,22 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@PrimaryKeyJoinColumn(name = "idTouristicService")
+@Table(name = "event")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Event extends TouristicService{
+public class Event{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer idEvent;
     private String typeEvent;
     private String nameOfEvent;
     private Double priceTicket;
     private Integer amountOfTickets;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idTouristicService")
+    private TouristicService touristicService;
 }

@@ -28,6 +28,6 @@ public class Employee{
     private String nationality;
     private String celuphone;
 
-    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
-    private UserEntity user;
+//    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private UserEntity user;
 }

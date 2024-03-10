@@ -23,8 +23,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import java.util.stream.Collectors;
 
-@CrossOrigin(value = "http://localhost:5173")
-//@CrossOrigin(origins = "*") //Despues hay que eliminar esta linea y poner solo la del front, esto es solo para pruebas
+//@CrossOrigin(value = "http://localhost:5173/")
+@CrossOrigin(origins = "*") //Despues hay que eliminar esta linea y poner solo la del front, esto es solo para pruebas
 @RequestMapping("/")
 @RestController
 public class MainController {
@@ -139,7 +139,7 @@ public class MainController {
         employee.setNationality(employeeReceived.getNationality());
         employee.setPosition(employeeReceived.getPosition());
         employee.setSalary(employeeReceived.getSalary());
-        employee.setUser(employeeReceived.getUser());
+        //employee.setUser(employeeReceived.getUser());
         this.IEmployeeService.save(employee);
         return ResponseEntity.ok(employee);
     }
@@ -198,7 +198,7 @@ public class MainController {
         client.setDateOfBird(clientReceived.getDateOfBird());
         client.setAddress(clientReceived.getAddress());
         client.setNationality(clientReceived.getNationality());
-        client.setUser(clientReceived.getUser());
+       // client.setUser(clientReceived.getUser());
         this.iClientService.save(client);
         return ResponseEntity.ok(client);
     }
@@ -266,7 +266,7 @@ public class MainController {
         Hotel hotel = this.hotelService.findById(id);
         if (hotel == null)
             throw new ResourceNotFoundException("No se encontro el Hotel con id: "+ id);
-        this.hotelService.deleteById(hotel.getIdTouristicService());
+        this.hotelService.deleteById(hotel.getIdHotel());
         Map<String, Boolean> response = new HashMap<>();
         response.put("delete",Boolean.TRUE);
         logger.info("Hotel eliminado: " + hotel);
@@ -328,7 +328,7 @@ public class MainController {
         Event event = this.eventService.findById(id);
         if (event == null)
             throw new ResourceNotFoundException("No se encontro el Evento con el id: "+ id);
-        this.eventService.deleteById(event.getIdTouristicService());
+        this.eventService.deleteById(event.getIdEvent());
         Map<String, Boolean> response = new HashMap<>();
         response.put("delete",Boolean.TRUE);
        logger.info("Evento eliminado: " + event);
@@ -378,11 +378,11 @@ public class MainController {
 
     //Eliminar un Evento de la base de datos
     @DeleteMapping("/carRental/{id}")
-    public ResponseEntity<Map<String, Boolean>> deleteCarRental(@PathVariable Integer idTouristicService){
-        CarRental carRental = this.carRentalService.findById(idTouristicService);
+    public ResponseEntity<Map<String, Boolean>> deleteCarRental(@PathVariable Integer idCarRental){
+        CarRental carRental = this.carRentalService.findById(idCarRental);
         if (carRental == null)
-            throw new ResourceNotFoundException("No se encontro el Auto de alquiler con el id: "+ idTouristicService);
-        this.carRentalService.deleteById(carRental.getIdTouristicService());
+            throw new ResourceNotFoundException("No se encontro el Auto de alquiler con el id: "+ idCarRental);
+        this.carRentalService.deleteById(carRental.getIdCarRental());
         Map<String, Boolean> response = new HashMap<>();
         response.put("delete",Boolean.TRUE);
         logger.info("Auto de alquiler eliminado: " + carRental);
@@ -399,7 +399,9 @@ public class MainController {
     }
 
     //Crear una Excursion en la base de datos
-    @PostMapping("/excursioerrrewren")
+
+    @PostMapping("/createExcursion")
+
     public Excursion addExcursion(@RequestBody Excursion excursion) {
         logger.info("La Eexcursion agregado es: " + excursion);
         return this.excursionService.save(excursion);
@@ -437,7 +439,7 @@ public class MainController {
         Excursion excursion = this.excursionService.findById(idTouristicService);
         if (excursion == null)
             throw new ResourceNotFoundException("No se encontro la excursion con el id: "+ idTouristicService);
-        this.excursionService.deleteById(excursion.getIdTouristicService());
+        this.excursionService.deleteById(excursion.getIdExcursion());
         Map<String, Boolean> response = new HashMap<>();
         response.put("delete",Boolean.TRUE);
         logger.info("Excursion eliminada: " + excursion);
