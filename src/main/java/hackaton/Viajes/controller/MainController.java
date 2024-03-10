@@ -139,7 +139,7 @@ public class MainController {
         employee.setNationality(employeeReceived.getNationality());
         employee.setPosition(employeeReceived.getPosition());
         employee.setSalary(employeeReceived.getSalary());
-        employee.setUser(employeeReceived.getUser());
+        //employee.setUser(employeeReceived.getUser());
         this.IEmployeeService.save(employee);
         return ResponseEntity.ok(employee);
     }
@@ -198,7 +198,7 @@ public class MainController {
         client.setDateOfBird(clientReceived.getDateOfBird());
         client.setAddress(clientReceived.getAddress());
         client.setNationality(clientReceived.getNationality());
-        client.setUser(clientReceived.getUser());
+       // client.setUser(clientReceived.getUser());
         this.iClientService.save(client);
         return ResponseEntity.ok(client);
     }
