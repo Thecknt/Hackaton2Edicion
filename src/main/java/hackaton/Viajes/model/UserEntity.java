@@ -37,10 +37,10 @@ public class UserEntity {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RoleEntity> roles;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "employee_id", referencedColumnName = "idEmployee")
-    private Employee employee;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Client client;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "employee_id", referencedColumnName = "idEmployee")
+//    private Employee employee;
+//
+//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Client client;
 }
