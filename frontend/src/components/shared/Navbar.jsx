@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux'; // Importa 'useSelector' de react-redux
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { clearToken } from '../authSlice';
 
 function Navbar() {
-  const isAuthenticated = useSelector(state => state.auth.token !== null); // Verifica si el usuario está autenticado
-  const username = useSelector(state => state.auth.username); // Obtiene el nombre de usuario del store de Redux
+  const isAuthenticated = useSelector(state => state.auth.token !== null);
+  const username = useSelector(state => state.auth.username);
   const navigate = useNavigate();
+  const dispatch = useDispatch(); // Obtener la función dispatch
 
   const handleClick = () => {
     navigate('/login');
@@ -15,11 +18,27 @@ function Navbar() {
     navigate('/register');
   };
 
+  const handleLogout = () => {
+    const logoutConfirmed = window.confirm("¿Estás seguro de que deseas cerrar sesión?");
+
+    if (logoutConfirmed) {
+      axios.post('http://localhost:8080/logout')
+        .then(response => {
+          dispatch(clearToken()); // Despachar la acción para limpiar el token
+          window.location.href = '/home';
+        })
+        .catch(error => {
+          console.error('Error en la solicitud de cierre de sesión:', error);
+        });
+    }
+  };
+  
   const [darkMode, setDarkMode] = useState(false);
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
-    if (!darkMode) {      document.documentElement.classList.add('dark');
+    if (!darkMode) {
+      document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
@@ -32,11 +51,13 @@ function Navbar() {
           <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="https://img.molachinoviajes.com/gallery/var/albums/logo.png?m=1709405969" className="h-40 object-cover" alt="Flowbite Logo" />
           </a>
-          <div className="flex items-center"> {/* Nuevo contenedor para el mensaje de bienvenida y enlaces */}
+          <div className="flex items-center">
           {isAuthenticated && (
-  <span className="text-white mr-4">Bienvenido: {username}</span>
+  <span className="text-white mr-4">
+    <span className="bg-green-300 w-3 h-3 inline-block rounded-full mr-1"></span> {/* Indicador de estado verde */}
+    Bienvenido: {username}
+  </span>
 )}
-
 
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-amber-400 md:bg-amber-400 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-amber-400 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               <li>
@@ -64,6 +85,21 @@ function Navbar() {
                   >
                     Iniciar Sesión
                   </button>
+                </li>
+              )}
+              {isAuthenticated ? (
+                <li className="text-white">
+                  <button
+                    type="button"
+                    className="inline-block rounded bg-red-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#54b4d3] transition duration-150 ease-in-out hover:bg-red-600 hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:bg-red-600 focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:outline-none focus:ring-0 active:bg-red-700 active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(84,180,211,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)]"
+                    onClick={handleLogout}
+                  >
+                    Cerrar Sesión
+                  </button>
+                </li>
+              ) : (
+                <li>
+                  {/* Aquí no es necesario mostrar nada */}
                 </li>
               )}
               <li>

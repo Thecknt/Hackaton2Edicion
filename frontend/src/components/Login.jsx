@@ -1,5 +1,3 @@
-// Login.jsx
-
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +7,8 @@ import { setToken } from '../components/authSlice';
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [alertType, setAlertType] = useState('');
+    const [alertMessage, setAlertMessage] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -27,31 +26,33 @@ function Login() {
 
             if (response.status === 200) {
                 const token = response.data.token;
-                const username = response.data.Username; // Aquí obtienes el nombre de usuario del servidor
-                dispatch(setToken({ token, username })); // Despachar la acción setToken con el token y el nombre de usuario
+                const username = response.data.Username;
+                dispatch(setToken({ token, username }));
                 
-                console.log('Token guardado en Redux:', token); // Imprime el token en la consola
-                console.log('Nombre de usuario:', username); // Imprime el nombre de usuario en la consola
+                console.log('Token guardado en Redux:', token);
+                console.log('Nombre de usuario:', username);
                 
-                alert('Inicio de sesión exitoso');
+                setAlertType('success');
+                setAlertMessage('Inicio de sesión exitoso');
                 navigate('/about');
 
-                // Limpiar campos después del inicio de sesión exitoso
                 setUsername('');
                 setPassword('');
             } else {
-                setError('Error en el inicio de sesión');
+                setAlertType('error');
+                setAlertMessage('Error en el inicio de sesión');
             }
         } catch (error) {
+            setAlertType('error');
             if (error.response) {
                 console.error('Error en el inicio de sesión:', error.response.data);
-                setError(error.response ? error.response.data : 'Error en el inicio de sesión');
+                setAlertMessage('Error al iniciar sesión: Credenciales incorrectas');
             } else if (error.request) {
                 console.error('Error en el inicio de sesión:', error.request);
-                setError('Error en el inicio de sesión: Request failed');
+                setAlertMessage('Error en el inicio de sesión: Request failed');
             } else {
                 console.error('Error en el inicio de sesión:', error.message);
-                setError('Error en el inicio de sesión: ' + error.message);
+                setAlertMessage('Error en el inicio de sesión: ' + error.message);
             }
         }
     };
@@ -59,7 +60,16 @@ function Login() {
     return (
         <div>
             <h2>Iniciar sesión</h2>
-            {error && <div className="error-message">{error}</div>}
+            {alertType === 'error' && (
+                <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                    <span className="font-medium">¡Error!</span> {alertMessage}
+                </div>
+            )}
+            {alertType === 'success' && (
+                <div className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                    <span className="font-medium">¡Éxito!</span> {alertMessage}
+                </div>
+            )}
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Usuario:</label>
