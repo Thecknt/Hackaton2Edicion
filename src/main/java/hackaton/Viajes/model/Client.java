@@ -27,7 +27,7 @@ public class Client{
     private String nationality;
     private String celuphone;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "idUser")
-    private UserEntity user;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "user_id", referencedColumnName = "idUser")
+//    private UserEntity user;
 }
