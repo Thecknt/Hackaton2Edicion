@@ -1,13 +1,13 @@
 package hackaton.Viajes.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.time.LocalDate;
-import java.util.Set;
+import java.util.Date;
 
 @Entity
 @Data
@@ -23,11 +23,13 @@ public class Client{
     private String lastname;
     private String address;
     private String dni;
-    private LocalDate dateOfBird;
+    @Column(name = "date_of_birth")
+    private String dateOfBirth;
     private String nationality;
     private String celuphone;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "user_id", referencedColumnName = "idUser")
-//    private UserEntity user;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "idUser")
+    private UserEntity user;
 }

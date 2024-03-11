@@ -85,4 +85,8 @@ function Login() {
     );
 }
 
+<<<<<<< HEAD
 export default Login;
+=======
+export default Login;
+>>>>>>> 13051bfc136d19bf7d79acf4011ae32fd600d530
