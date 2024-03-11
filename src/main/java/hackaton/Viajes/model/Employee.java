@@ -24,10 +24,11 @@ public class Employee{
     private String lastname;
     private String address;
     private String dni;
-    private LocalDate dateOfBird;
+    @Column(name = "date_of_birth")
+    private String dateOfBirth;
     private String nationality;
     private String celuphone;
 
-//    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private UserEntity user;
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UserEntity user;
 }

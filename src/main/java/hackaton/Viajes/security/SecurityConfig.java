@@ -45,13 +45,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->{
                     auth.requestMatchers("/login","/createUser","/")
                         .permitAll();
-                    auth.requestMatchers(HttpMethod.POST, "/login").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/login","/createClient").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/hotels","/clients","/employee")
                             .permitAll();
-                    auth.requestMatchers(HttpMethod.POST, "/createHotels","/createEmployee").hasRole("ADMIN");
-                    auth.requestMatchers(HttpMethod.POST, "/createClients").hasAnyRole("CLIENT","EMPLOYEE");
+                    auth.requestMatchers(HttpMethod.POST, "/createHotels","/createEmployee","/createEvent","/createExcursion","createTransportation").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/addData/{id}").hasRole("CLIENT");
+                    auth.requestMatchers(HttpMethod.POST, "/createClient").hasRole("EMPLOYEE");
                     auth.requestMatchers(HttpMethod.DELETE,"/hotels/{id}","clients/{id}","/employee/{id}").hasRole("ADMIN");
-                    auth.requestMatchers(HttpMethod.PUT, "/hotels/{id}", "/clients/{id}","/employee/{id}").hasAnyRole("ADMIN","EMPLOYEE");
+                    auth.requestMatchers(HttpMethod.POST, "/createClient").hasAnyRole("CLIENT","EMPLOYEE","ADMIN");
                     auth.requestMatchers("/deleteUser").hasRole("ADMIN");
                     auth.requestMatchers("/createClient","/createUser")
                             .hasAnyRole("ADMIN","EMPLOYEE");

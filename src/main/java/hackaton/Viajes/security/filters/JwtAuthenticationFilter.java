@@ -41,8 +41,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
              userEntity = new ObjectMapper().readValue(request.getInputStream(), UserEntity.class);
              username = userEntity.getUsername();
              password = userEntity.getPassword();
-            System.out.println("username: " + username);
-            System.out.println("password: " + password);
+
         } catch (StreamReadException e){
             throw new RuntimeException(e);
         }catch (DatabindException e) {
@@ -54,7 +53,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password);
 
-        System.out.println("authentication token: "+ authenticationToken);
         return getAuthenticationManager().authenticate(authenticationToken);
     }
 
@@ -74,8 +72,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         httpResponse.put("token", token);
         httpResponse.put("Message", "Authentication successful");
         httpResponse.put("Username", user.getUsername());
-
-        System.out.println("Inicio de sesion: ");
 
         response.getWriter().write(new ObjectMapper().writeValueAsString(httpResponse));
         response.setStatus(HttpStatus.OK.value());
