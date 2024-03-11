@@ -12,13 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import java.util.stream.Collectors;
@@ -56,33 +54,27 @@ public class MainController {
     @Autowired
     private IExcursionService excursionService;
 
-    //@PostMapping("/login")
-    //public ResponseEntity<?> login(@RequestBody User user){
-        // Aquí deberías buscar al usuario en tu base de datos usando el nombre de usuario proporcionado
-        // y luego comparar la contraseña proporcionada con la almacenada en la base de datos.
-        // Si las contraseñas coinciden, entonces el inicio de sesión es exitoso.
-        // Si no coinciden o si el usuario no se encuentra en la base de datos, entonces el inicio de sesión falla.
-
-        // Este es solo un ejemplo y necesitarás adaptarlo para que funcione con tu base de datos y tu sistema de autenticación.
-        //User userInDb = userRepository.findByUsername(user.getUsername());
-        //if(userInDb != null && userInDb.getPassword().equals(user.getPassword())){
-            //return new ResponseEntity<>("Inicio de sesión exitoso", HttpStatus.OK);
-        //} else {
-            //return new ResponseEntity<>("Error en el inicio de sesión", HttpStatus.UNAUTHORIZED);
-        //}
-   // }
-
-
     //Registro para un nuevo usuario desde el inicio, tambien puede ser usado desde el rol empleado
     @PostMapping("/createUser")
     public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserDTO createUserDTO){
 
-        System.out.println("ingreso al metodo");
         Set<RoleEntity> roles = createUserDTO.getRoles().stream()
                 .map(role -> RoleEntity.builder()
                         .name(ERole.valueOf(role))
                         .build())
                 .collect(Collectors.toSet());
+
+        Optional<UserEntity> userOptional = userRepository.findByUsername(createUserDTO.getUsername());
+        if (userOptional.isPresent()){
+            throw new ResourceNotFoundException("Ya hiciste un usuario con este nombre: " + createUserDTO.getUsername());
+        }
+
+
+        if (userRepository.existsByEmail(createUserDTO.getEmail())){
+
+            throw new ResourceNotFoundException("El email ya se encuentra utilizado: "+createUserDTO.getEmail());
+        }
+
 
         UserEntity userEntity = UserEntity.builder()
                 .username(createUserDTO.getUsername())
@@ -91,7 +83,7 @@ public class MainController {
                 .roles(roles)
                 .build();
 
-        System.out.println("Usuario creado: "+ userEntity.toString());
+
         userRepository.save(userEntity);
 
         return ResponseEntity.ok(userEntity);
@@ -134,12 +126,12 @@ public class MainController {
         employee.setLastname(employeeReceived.getLastname());
         employee.setDni(employeeReceived.getDni());
         employee.setCeluphone(employeeReceived.getCeluphone());
-        employee.setDateOfBird(employeeReceived.getDateOfBird());
+        employee.setDateOfBirth(employeeReceived.getDateOfBirth());
         employee.setAddress(employeeReceived.getAddress());
         employee.setNationality(employeeReceived.getNationality());
         employee.setPosition(employeeReceived.getPosition());
         employee.setSalary(employeeReceived.getSalary());
-        //employee.setUser(employeeReceived.getUser());
+        employee.setUser(employeeReceived.getUser());
         this.IEmployeeService.save(employee);
         return ResponseEntity.ok(employee);
     }
@@ -167,16 +159,31 @@ public class MainController {
         return clients;
     }
 
-    //Agregar un cliente en la base de datos
-    @PostMapping("/createClients")
-    public Client addClient(@RequestBody Client client){
-        logger.info("El cliente agregado es: "+ client);
-        return this.iClientService.save(client);
+    //agregar un cliente siendo ROL employee o bien ADMIN
+    @PostMapping("/createClient")
+    public Client createClient(@RequestBody Client client){
+            logger.info("El cliente agregado es: "+ client);
+            return this.iClientService.save(client);
+    }
+
+
+    //Agregar un cliente en la base de datos, siendo cliente
+    @PostMapping("/addData/{id}")
+    public Client addData(@RequestBody Client client, @PathVariable Integer id){
+        Optional<UserEntity> userOptional = this.userRepository.findById(id);
+        if (userOptional.isPresent()){
+            UserEntity user = userOptional.get();
+            client.setUser(user);
+            logger.info("El cliente agregado es: "+ client);
+            return this.iClientService.save(client);
+        }else{
+         throw new UsernameNotFoundException("No se encontro al usuario");
+        }
     }
 
     //Buscar Un cliente por ID en la base datos
     @GetMapping("/clients/{id}")
-    public ResponseEntity<Client> findclientById(@PathVariable Integer id){
+    public ResponseEntity<Client> findClientById(@PathVariable Integer id){
         Client client = this.iClientService.findById(id);
         if (client != null)
             return ResponseEntity.ok(client);
@@ -195,10 +202,10 @@ public class MainController {
         client.setLastname(clientReceived.getLastname());
         client.setDni(clientReceived.getDni());
         client.setCeluphone(clientReceived.getCeluphone());
-        client.setDateOfBird(clientReceived.getDateOfBird());
+        client.setDateOfBirth(clientReceived.getDateOfBirth());
         client.setAddress(clientReceived.getAddress());
         client.setNationality(clientReceived.getNationality());
-       // client.setUser(clientReceived.getUser());
+        client.setUser(clientReceived.getUser());
         this.iClientService.save(client);
         return ResponseEntity.ok(client);
     }
@@ -312,7 +319,7 @@ public class MainController {
                                              @RequestBody Event eventReceived){
         Event event = this.eventService.findById(id);
         if (event == null)
-            throw new ResourceNotFoundException("Eventi no econtrado con el id: "+id);
+            throw new ResourceNotFoundException("Evento no econtrado con el id: "+id);
         event.setNameOfEvent(eventReceived.getNameOfEvent());
         event.setTypeEvent(eventReceived.getTypeEvent());
         event.setAmountOfTickets(eventReceived.getAmountOfTickets());
@@ -337,7 +344,7 @@ public class MainController {
 
    //Consultar Todos los autos de alquiler en la base de datos
     @PostMapping("/carRental")
-    public List<CarRental> getAllcars(){
+    public List<CarRental> getAllCars(){
         List<CarRental> cars = this.carRentalService.listCar();
        logger.info("Estos son los autos que hay guardados: ");
         cars.forEach((car -> logger.info(car.toString())));
