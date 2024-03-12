@@ -30,7 +30,7 @@ function Login() {
                 
                 console.log('Token guardado en Redux:', token); // Imprime el token en la consola
                 console.log('Nombre de usuario:', username); // Imprime el nombre de usuario en la consola
-                
+                console.log(response.data);
                 alert('Inicio de sesión exitoso');
                 navigate('/about');
 
