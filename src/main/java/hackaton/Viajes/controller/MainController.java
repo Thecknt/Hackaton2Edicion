@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.*;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -66,15 +67,13 @@ public class MainController {
 
         Optional<UserEntity> userOptional = userRepository.findByUsername(createUserDTO.getUsername());
         if (userOptional.isPresent()){
-            throw new ResourceNotFoundException("Ya hiciste un usuario con este nombre: " + createUserDTO.getUsername());
+            throw new ResourceNotFoundException("Ya existe un usuario con este nombre: " + createUserDTO.getUsername());
         }
-
 
         if (userRepository.existsByEmail(createUserDTO.getEmail())){
 
             throw new ResourceNotFoundException("El email ya se encuentra utilizado: "+createUserDTO.getEmail());
         }
-
 
         UserEntity userEntity = UserEntity.builder()
                 .username(createUserDTO.getUsername())
@@ -83,10 +82,13 @@ public class MainController {
                 .roles(roles)
                 .build();
 
-
         userRepository.save(userEntity);
 
-        return ResponseEntity.ok(userEntity);
+        Map<String, Object> response = new HashMap<>();
+        response.put("user", userEntity);
+        response.put("responseMessage", String.format("User with ID %d and EMAIL %s has beed created.", userEntity.getIdUser(),userEntity.getEmail()));
+
+        return ResponseEntity.ok(response);
     }
 
     //Consultar todos los empleados de la base de datos
@@ -100,8 +102,10 @@ public class MainController {
 
     //Agregar un empleado a la base de datos
     @PostMapping("/createEmployee")
-    public Employee addEmployee(@RequestBody Employee employee){
-        logger.info("Empleado guardado en la base de datos: "+ employee);
+    public Employee addEmployee(@RequestBody Employee employee,Authentication authentication){
+        String username = authentication.getName();
+        UserEntity currentUser = userRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User not found."));
+        employee.setUser(currentUser);
         return this.IEmployeeService.save(employee);
     }
 
@@ -161,25 +165,15 @@ public class MainController {
 
     //agregar un cliente siendo ROL employee o bien ADMIN
     @PostMapping("/createClient")
-    public Client createClient(@RequestBody Client client){
-            logger.info("El cliente agregado es: "+ client);
+    public Client createClient(@RequestBody Client client, Authentication authentication){
+
+        String username = authentication.getName();
+        UserEntity currentUser = userRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User not found."));
+
+            client.setUser(currentUser);
             return this.iClientService.save(client);
     }
 
-
-    //Agregar un cliente en la base de datos, siendo cliente
-    @PostMapping("/addData/{id}")
-    public Client addData(@RequestBody Client client, @PathVariable Integer id){
-        Optional<UserEntity> userOptional = this.userRepository.findById(id);
-        if (userOptional.isPresent()){
-            UserEntity user = userOptional.get();
-            client.setUser(user);
-            logger.info("El cliente agregado es: "+ client);
-            return this.iClientService.save(client);
-        }else{
-         throw new UsernameNotFoundException("No se encontro al usuario");
-        }
-    }
 
     //Buscar Un cliente por ID en la base datos
     @GetMapping("/clients/{id}")
