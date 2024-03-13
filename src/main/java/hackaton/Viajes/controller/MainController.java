@@ -55,6 +55,9 @@ public class MainController {
     @Autowired
     private IExcursionService excursionService;
 
+    @Autowired
+    private TransportationService transportationService;
+
     //Registro para un nuevo usuario desde el inicio, tambien puede ser usado desde el rol empleado
     @PostMapping("/createUser")
     public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserDTO createUserDTO){
@@ -262,7 +265,7 @@ public class MainController {
 
 
     //Eliminar un hotel de la base de datos
-    @DeleteMapping("/productos/{id}")
+    @DeleteMapping("/hotel/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteHotel(@PathVariable Integer id){
         Hotel hotel = this.hotelService.findById(id);
         if (hotel == null)
@@ -282,7 +285,7 @@ public class MainController {
     }
 
     //Consultar Todos los Eventos en la base de datos
-    @PostMapping("/event")
+    @GetMapping("/event")
     public List<Event> getAllEvents(){
         List<Event> events = this.eventService.events();
         logger.info("Estos son los eventos que hay guardados: ");
@@ -337,7 +340,7 @@ public class MainController {
   }
 
    //Consultar Todos los autos de alquiler en la base de datos
-    @PostMapping("/carRental")
+    @GetMapping("/carRental")
     public List<CarRental> getAllCars(){
         List<CarRental> cars = this.carRentalService.listCar();
        logger.info("Estos son los autos que hay guardados: ");
@@ -391,7 +394,7 @@ public class MainController {
     }
 
     //Consultar Todas las Excursiones en la base de datos
-    @PostMapping("/excursion")
+    @GetMapping("/excursion")
     public List<Excursion> getAllExcursions(){
         List<Excursion> excursions = this.excursionService.excursions();
         logger.info("Estos son las excursiones que hay guardados: ");
@@ -402,7 +405,6 @@ public class MainController {
     //Crear una Excursion en la base de datos
 
     @PostMapping("/createExcursion")
-
     public Excursion addExcursion(@RequestBody Excursion excursion) {
         logger.info("La Eexcursion agregado es: " + excursion);
         return this.excursionService.save(excursion);
@@ -444,6 +446,59 @@ public class MainController {
         Map<String, Boolean> response = new HashMap<>();
         response.put("delete",Boolean.TRUE);
         logger.info("Excursion eliminada: " + excursion);
+        return  ResponseEntity.ok(response);
+    }
+
+    //Buscar todos los medios de transporte en la base de datos
+    @GetMapping("/transportation")
+    public List<Transportation> getAllTransportation(){
+        List<Transportation> transportationList = this.transportationService.transportations();
+        logger.info("Estos son todos los medios de Transportes que hay guardados: ");
+        transportationList.forEach((transportation -> logger.info(transportation.toString())));
+        return transportationList;
+    }
+
+    //Crear un medio de transporte en la base de datos
+    @PostMapping("/createTransportation")
+    public Transportation addTransportation(@RequestBody Transportation transportation) {
+        logger.info("El medio de transporte agregado es: " + transportation);
+        return this.transportationService.save(transportation);
+    }
+
+    //Buscar un medio Transporte por ID en la base de datos
+    @GetMapping("/transportation/{id}")
+    public ResponseEntity<Transportation> findTransportationById(@PathVariable Integer id){
+        Transportation transportation = this.transportationService.findById(id);
+        if (transportation != null)
+            return ResponseEntity.ok(transportation);
+        else
+            throw new ResourceNotFoundException("El medio de transporte no fue encontrado con el id: "+ id);
+    }
+
+    //Editar un medio de transporte por ID en la base de datos
+    @PutMapping("/transportation/{id}")
+    public ResponseEntity<Transportation> updateTransportation(@PathVariable Integer id,
+                                                     @RequestBody Transportation transportationReceived){
+        Transportation transportation = this.transportationService.findById(id);
+        if (transportation == null)
+            throw new ResourceNotFoundException("La excursion no fue econtrada con el id: "+id);
+        transportation.setPriceTransportation(transportationReceived.getPriceTransportation());
+        transportation.setTypeOfTransport(transportationReceived.getTypeOfTransport());
+        transportation.setAmountOfTickets(transportationReceived.getAmountOfTickets());
+        this.transportationService.save(transportation);
+        return ResponseEntity.ok(transportation);
+    }
+
+    //Eliminar un medio de transporte de la base de datos
+    @DeleteMapping("/transportation/{id}")
+    public ResponseEntity<Map<String, Boolean>> deleteTransportation(@PathVariable Integer idTransportation){
+        Transportation transportation = this.transportationService.findById(idTransportation);
+        if (idTransportation == null)
+            throw new ResourceNotFoundException("No se encontro el medio de transporte con el id: "+ idTransportation);
+        this.transportationService.deleteById(transportation.getIdTransportation());
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("delete",Boolean.TRUE);
+        logger.info("Medio de transporte eliminado: " + transportation);
         return  ResponseEntity.ok(response);
     }
 }
